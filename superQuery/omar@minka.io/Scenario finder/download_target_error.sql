@@ -38,5 +38,5 @@ WHERE
     AND EXISTS (SELECT 1 FROM UNNEST(upload.status) WHERE status IN ("COMPLETED")) 
     AND EXISTS (SELECT 1 FROM UNNEST(main_action.status) WHERE status IN ("COMPLETED")) 
     AND EXISTS (SELECT 1 FROM UNNEST(download_target.status) WHERE status IN ("ERROR"))
-    AND (target_bank="Banco Caja Social"
-            OR source_bank="Banco Caja Social")
+    AND source_bank="Banco Caja Social"
+    AND created>"2020-04-01"
