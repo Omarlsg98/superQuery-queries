@@ -32,5 +32,6 @@ WHERE
     AND  download_target.count is null 
     AND  download_source.count is null
     AND reject.count is null 
-    AND download_ambiguous.count is null 
+    AND download_ambiguous.count is null
+    AND type!="REQUEST"
     AND created>"2020-04-01"
