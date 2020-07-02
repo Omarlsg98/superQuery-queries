@@ -30,6 +30,8 @@ FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
 WHERE status="ERROR"
+    AND source_bank="Movii"
+    AND target_bank is null
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_
 ORDER BY
