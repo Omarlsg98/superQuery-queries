@@ -33,8 +33,15 @@ FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
 WHERE
-    status IN ("ERROR","PENDING","ACCEPTED")
+    upload.count is null 
+    AND  main_action.count=1 
+    AND  download_target.count is null 
+    AND  download_source.count is null
+    AND reject.count is null 
+    AND download_ambiguous.count is null
     AND created BETWEEN "2020-04-01" AND "2020-06-30"
+    AND source_channel!='"MassTransferCLI"'
+    AND status="ERROR"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
