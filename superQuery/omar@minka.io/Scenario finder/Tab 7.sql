@@ -35,3 +35,4 @@ WHERE
     AND download_ambiguous.count is null
     AND type!="REQUEST"
     AND created>"2020-04-01"
+    AND source_channel!="'MassTransferCLI'"
