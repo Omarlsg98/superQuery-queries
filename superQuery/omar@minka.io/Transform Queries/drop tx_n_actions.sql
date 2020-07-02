@@ -1,0 +1,1 @@
+DROP TABLE ach-tin-prd.temp.tx_n_actions
