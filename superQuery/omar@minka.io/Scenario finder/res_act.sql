@@ -30,7 +30,7 @@ FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
- transfer_id IN ('YZ8ELHXOA0MYSJAQW',
+ UPPER(transfer_id) IN ('YZ8ELHXOA0MYSJAQW',
 'RRJLUH8FQQHMGMV06',
 'FL1QOLEFOJBSPEIWQ',
 'AN0C0FSIEZKGBEA8Y',
