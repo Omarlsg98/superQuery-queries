@@ -1,5 +1,3 @@
-/*ACTION SUMMARY*/
-create table temp.action_summary as
 select transferId, min(created) as created, max(updated) as updated , type, sum(count) as count ,ARRAY_AGG(whole_status) as status
 from(
  select transferId, type,sum(count) as count,
