@@ -1,5 +1,7 @@
 SELECT
    transfer_id
+   ,type AS transfer_type
+   ,status AS transfer_status
    ,error.code AS transfer_error_code
    ,error.message AS transfer_error_message
    ,main_action.status[offset(0)].status AS main_action_status
@@ -8,8 +10,6 @@ SELECT
    ,upload.status[offset(0)].count.with_hash AS upload_count
    ,download_target.status[offset(0)].status AS download_target_status
    ,download_target.status[offset(0)].count.with_hash AS download_target_count_signed
-   ,download_target.status[offset(0)].error[offset(0)].code AS download_target_error_code
-   ,download_target.status[offset(0)].error[offset(0)].message AS download_target_error_message
    ,tx_id
    ,tx_labels_id
    ,source
@@ -21,8 +21,6 @@ SELECT
    ,target_signer
    ,target_bank
    ,amount
-   ,type AS transfer_type
-   ,status AS transfer_status
    ,created
    ,updated
    ,source_channel
