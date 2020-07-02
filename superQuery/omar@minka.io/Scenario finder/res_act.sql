@@ -33,9 +33,8 @@ FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
 WHERE
-    status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
-    AND created>"2020-04-01"
-    AND source_bank="Banco Caja Social"
+    status IN ("ERROR","PENDING","ACCEPTED")
+    AND created BETWEEN "2020-04-01" AND "2020-06-30"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
