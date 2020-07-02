@@ -26,6 +26,8 @@ SELECT
     FROM 
         UNNEST(download_ambiguous.status)) as download_ambiguous_
     ,count(*) as number_cases
+    ,source_bank
+    ,target_bank
 FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
@@ -381,6 +383,6 @@ WHERE
 'J9E8MLFVTNAZPNUTV',
 '6GOVTDEESH9F6WOEI')
 GROUP BY
-    status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_
+    status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
     number_cases DESC
