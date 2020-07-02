@@ -13,18 +13,18 @@ SELECT
 FROM
     minka-ach-dw.ach_tin_20200701_1415.transfer_action
 WHERE 
-    transfer_id In (
-        SELECT transfer_id
+    transfer_id IN (
+        SELECT action_transfer_id
         FROM minka-ach-dw.ach_tin_20200701_1415.action
         WHERE action_type="UPLOAD" AND action_status="COMPLETED")
     AND 
-     transfer_id In (
-        SELECT transfer_id
+     transfer_id IN (
+        SELECT action_transfer_id
         FROM minka-ach-dw.ach_tin_20200701_1415.action
         WHERE action_type="SEND" AND action_status="REJECTED")
     AND
-     transfer_id In (
-        SELECT transfer_id
+     transfer_id IN (
+        SELECT action_transfer_id
         FROM minka-ach-dw.ach_tin_20200701_1415.action
         WHERE action_type="DOWNLOAD" AND action_status="COMPLETED")
     AND 
