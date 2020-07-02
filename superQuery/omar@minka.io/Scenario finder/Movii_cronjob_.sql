@@ -1,5 +1,15 @@
 SELECT
    transfer_id
+   ,error.code AS transfer_error_code
+   ,error.message AS transfer_error_message
+   ,main_action.status[offset(0)].status AS main_action_status
+   ,main_action.status[offset(0)].count.with_hash AS main_action_count
+   ,upload.status[offset(0)].status AS upload_status
+   ,upload.status[offset(0)].count.with_hash AS upload_count
+   ,download_target.status[offset(0)].status AS download_target_status
+   ,download_target.status[offset(0)].count.with_hash AS download_target_count_signed
+   ,download_target.status[offset(0)].error[offset(0)].code AS download_target_error_code
+   ,download_target.status[offset(0)].error[offset(0)].message AS download_target_error_message
    ,tx_id
    ,tx_labels_id
    ,source
@@ -16,16 +26,6 @@ SELECT
    ,created
    ,updated
    ,source_channel
-   ,error.code AS transfer_error_code
-   ,error.message AS transfer_error_message
-   ,main_action.status[offset(0)].status AS main_action_status
-   ,main_action.status[offset(0)].count.with_hash AS main_action_count
-   ,upload.status[offset(0)].status AS upload_status
-   ,upload.status[offset(0)].count.with_hash AS upload_count
-   ,download_target.status[offset(0)].status AS download_target_status
-   ,download_target.status[offset(0)].count.with_hash AS download_target_count_signed
-   ,download_target.status[offset(0)].error[offset(0)].code AS download_target_error_code
-   ,download_target.status[offset(0)].error[offset(0)].message AS download_target_error_message
 FROM
     ach-tin-prd.temp.tx_n_actions as t
 WHERE
