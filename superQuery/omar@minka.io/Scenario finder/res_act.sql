@@ -26,7 +26,9 @@ SELECT
     FROM 
         UNNEST(download_ambiguous.status)) as download_ambiguous_
     ,count(*) as number_cases
-
+    ,source_bank
+    ,target_bank
+    ,STRING_AGG(transfer_id)
 FROM
     ach-tin-prd.temp.tx_n_actions
 /*---WHERE---*/
@@ -35,5 +37,7 @@ WHERE
     AND created>"2020-04-01"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
+HAVING
+    number_cases>50
 ORDER BY
     number_cases DESC
