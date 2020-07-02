@@ -8,8 +8,8 @@ SELECT
    ,main_action.status[offset(0)].count.with_hash AS main_action_count
    ,upload.status[offset(0)].status AS upload_status
    ,upload.status[offset(0)].count.with_hash AS upload_count
-   ,download_target.status[offset(0)].status AS download_target_status
-   ,download_target.status[offset(0)].count.with_hash AS download_target_count_signed
+   ,download_source.status[offset(0)].status AS download_source_status
+   ,download_source.status[offset(0)].count.with_hash AS download_source_count_signed
    ,tx_id
    ,tx_labels_id
    ,source
