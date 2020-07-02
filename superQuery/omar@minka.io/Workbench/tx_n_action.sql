@@ -1,7 +1,7 @@
 SELECT
     *
 FROM
-   ach-tin-prd.sql_dump.action
+   ach-tin-prd.temp.tx_n_actions
 WHERE
     transferId="CAM88btKQeL8mNb29"
 LIMIT 100
