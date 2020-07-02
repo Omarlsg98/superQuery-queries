@@ -30,11 +30,11 @@ WHERE
     upload.count=1 
     AND  main_action.count=1 
     AND  download_target.count is null 
-    AND  download_source.count is null 
+    AND  download_source.count=1
     AND reject.count is null 
-    AND download_ambiguous.count = 1
+    AND download_ambiguous.count is null 
     AND EXISTS (SELECT 1 FROM UNNEST(upload.status) WHERE status IN ("COMPLETED")) 
     AND EXISTS (SELECT 1 FROM UNNEST(main_action.status) WHERE status IN ("REJECTED")) 
-    AND EXISTS (SELECT 1 FROM UNNEST(download_ambiguous.status) WHERE status IN ("COMPLETED"))
+    AND EXISTS (SELECT 1 FROM UNNEST(download_source.status) WHERE status IN ("COMPLETED"))
     AND (source_bank="Movii")
     AND status="ERROR"
