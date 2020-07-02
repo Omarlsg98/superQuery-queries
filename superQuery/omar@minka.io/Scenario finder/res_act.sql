@@ -35,9 +35,8 @@ FROM
 WHERE
     status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
     AND created>"2020-04-01"
+    AND source_bank="Banco Caja Social"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
-HAVING
-    number_cases>50
 ORDER BY
     number_cases DESC
