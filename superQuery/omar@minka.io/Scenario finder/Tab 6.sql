@@ -27,6 +27,11 @@ WHERE
         SELECT action_transfer_id
         FROM minka-ach-dw.ach_tin_20200701_1415.action
         WHERE action_type="DOWNLOAD" AND action_status="COMPLETED")
+     AND
+     transfer_id NOT IN (
+        SELECT action_transfer_id
+        FROM minka-ach-dw.ach_tin_20200701_1415.action
+        WHERE action_type="REJECT" )
     AND 
         transfer_source_bank="Movii"
     AND
