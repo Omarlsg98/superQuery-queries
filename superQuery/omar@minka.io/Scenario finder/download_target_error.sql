@@ -31,12 +31,12 @@ FROM
 WHERE
     upload.count=1 
     AND  main_action.count=1 
-    AND  download_target.count=1 
+    AND  download_target.count is null
     AND  download_source.count is null 
     AND reject.count is null 
     AND download_ambiguous.count is null 
     AND EXISTS (SELECT 1 FROM UNNEST(upload.status) WHERE status IN ("COMPLETED")) 
     AND EXISTS (SELECT 1 FROM UNNEST(main_action.status) WHERE status IN ("COMPLETED")) 
-    AND EXISTS (SELECT 1 FROM UNNEST(download_target.status) WHERE status IN ("ERROR"))
+    AND status="ERROR"
     AND source_bank="Banco Caja Social"
     AND created>"2020-04-01"
