@@ -45,7 +45,7 @@ WHERE
                 ON movii.transfer_id=UPPER(review.transfer_id)
         WHERE 
             movii.movii_status NOT IN ("Cambio Estado") 
-            AND bank_approval IN ("DAVIPLATA","DAVIVIENDA")
+            AND bank_approval IN ("DAVIPLATA","Daviplata")
        )
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
