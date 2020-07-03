@@ -1,7 +1,9 @@
 SELECT
-    ds.action_id as ds_id,
-    sql.action_id as sql_id,
-    ds.action_created
+    ds.action_id as ds_id
+    ,action_type
+    ,ds.action_transfer_id
+    ,sql.action_id as sql_id
+    ,ds.action_created
 FROM 
     minka-ach-dw.ach_tin_20200702_1159.action AS ds
 FULL JOIN
