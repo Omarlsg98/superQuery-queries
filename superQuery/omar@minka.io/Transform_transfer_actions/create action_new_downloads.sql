@@ -29,7 +29,7 @@ create table minka-ach-dw.temp.action_new_downloads as (
       )
     ) as type
   from
-     minka-ach-dw.ach_tin_20200701_1415.action act
+     minka-ach-dw.ach_tin_20200702_1159.action act
     Inner join (
       select
         transfer_id as txId,
