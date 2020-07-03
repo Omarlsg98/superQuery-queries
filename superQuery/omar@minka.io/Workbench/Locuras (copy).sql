@@ -26,9 +26,10 @@ LEFT JOIN
     cases ON cases.action_source=trans.target
 WHERE
     CAST(amount AS FLOAT64)=transfer_amount
-    AND  TIMESTAMP(created) 
-        BETWEEN  TIMESTAMP_SUB(TIMESTAMP(action_created), INTERVAL 5 MINUTE)
-        AND TIMESTAMP_ADD(TIMESTAMP(action_created), INTERVAL 5 MINUTE)
+    AND
+        DATETIME(TIMESTAMP(SUBSTR(created,1,19)))
+        BETWEEN DATETIME_SUB(DATETIME(TIMESTAMP(SUBSTR(action_created,1,19))), INTERVAL 5 MINUTE)
+            AND DATETIME_ADD(DATETIME(TIMESTAMP(SUBSTR(action_created,1,19))), INTERVAL 5 MINUTE)
 ORDER BY
     transfer_id
     ,created DESC
