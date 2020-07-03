@@ -19,4 +19,4 @@ select * EXCEPT(error_code,error_message), STRUCT(error_code as code,error_messa
   (select STRUCT(created, updated, count, status) 
   from minka-ach-dw.temp.action_summary asum
   where t.transfer_id=asum.action_transfer_id and asum.type="DOWNLOAD_AMBIGUOUS") as download_ambiguous
-from ach-tin-prd.sql_dump.transfer t
+from minka-ach-dw.ach_tin_20200702_1159.transfer t
