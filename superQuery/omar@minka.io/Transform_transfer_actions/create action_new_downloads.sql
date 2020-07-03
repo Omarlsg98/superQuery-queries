@@ -1,6 +1,4 @@
-/*ACTION NEW DOWNLOADS*/
-create table minka-ach-dw.temp.action_new_downloads as (
-  select
+ select
     *
   EXCEPT
     (action_type),
@@ -9,8 +7,7 @@ create table minka-ach-dw.temp.action_new_downloads as (
    minka-ach-dw.ach_tin_20200702_1159.action
   where
     action_type not in ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
-  UNION
-    DISTINCT
+  UNION ALL
   select
     *
   EXCEPT
@@ -40,4 +37,3 @@ create table minka-ach-dw.temp.action_new_downloads as (
     ) as tx ON tx.txId = act.action_transfer_id
   where
     act.action_type in ("DOWNLOAD")
-)
