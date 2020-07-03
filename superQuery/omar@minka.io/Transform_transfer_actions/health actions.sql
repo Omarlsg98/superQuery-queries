@@ -5,7 +5,7 @@ SELECT
     + SUM(download_source.count)
     + SUM(download_ambiguous.count)
     + SUM(reject.count) as total_actions
-    , "transformation" as descr
+    , "tx_n_actions" as descr
 FROM
     minka-ach-dw.temp.tx_n_actions
 UNION ALL
@@ -17,11 +17,12 @@ WHERE
     action_type not in ("ISSUE", "TOPUP", "WITHDRAW")
 UNION ALL
 SELECT
-    COUNT(action_id), "new downloads"
+    COUNT(action_id), "action_new_downloads"
 FROM 
     minka-ach-dw.temp.action_new_downloads
 UNION ALL
 SELECT
-    SUM(count), "new downloads"
+    SUM(count), "action_summary"
 FROM 
     minka-ach-dw.temp.action_summary
+ORDER BY total_actions DESC
