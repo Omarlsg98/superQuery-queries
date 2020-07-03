@@ -15,3 +15,13 @@ FROM
     minka-ach-dw.ach_tin_20200702_1159.action
 WHERE 
     action_type not in ("ISSUE", "TOPUP", "WITHDRAW")
+UNION ALL
+SELECT
+    COUNT(action_id), "new downloads"
+FROM 
+    minka-ach-dw.temp.action_new_downloads
+UNION ALL
+SELECT
+    SUM(count), "new downloads"
+FROM 
+    minka-ach-dw.temp.action_summary
