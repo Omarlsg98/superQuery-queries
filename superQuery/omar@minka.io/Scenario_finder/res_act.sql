@@ -33,8 +33,8 @@ FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-    status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
-    AND created BETWEEN "2020-04-01" AND "2020-07"
+    transfer_id IN ("8vBbp2nQ9dbpdzjgT")
+
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
