@@ -12,7 +12,7 @@ SELECT
    ,download_source.status[offset(0)].count.with_hash AS download_source_count_signed
    ,tx_id
    ,tx_labels_id
-   ,source
+   ,source 
    ,source_wallet
    ,source_signer
    ,source_bank
