@@ -36,9 +36,16 @@ WHERE
    /* status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
     AND created BETWEEN "2020-04-01" AND "2020-07" */
     transfer_id IN (
-        SELECT transfer_id
-        FROM minka-ach-dw.movii_bridge_log.ach_bank_review
-        WHERE bank_approval NOT IN ("Nequi"))
+                   SELECT
+                            review.transfer_id
+                        FROM 
+                            minka-ach-dw.movii_bridge_log.ach_bank_review AS review
+                        INNER JOIN
+                            minka-ach-dw.movii_bridge_log.movii_status_200702 as movii
+                                ON movii.transfer_id=UPPER(review.transfer_id)
+                        WHERE 
+                            movii.movii_status IN ("Cambio Estado")
+       )
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
