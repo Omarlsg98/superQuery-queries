@@ -4,6 +4,7 @@ WITH  cases AS  (SELECT
         ,action_created
         ,action_hash
         ,transfer_id
+        ,transfer_source_bank
     FROM
         minka-ach-dw.ach_tin_20200701_1415.transfer_action
     WHERE
@@ -12,6 +13,7 @@ WITH  cases AS  (SELECT
 SELECT
     transfer_id
     ,source
+    ,transfer_source_bank
     ,target
     ,action_source
     ,amount
