@@ -1,8 +1,8 @@
 /*ACTION SUMMARY*/
-create table temp.action_summary as
-select transferId, min(created) as created, max(updated) as updated , type, sum(count) as count ,ARRAY_AGG(whole_status) as status
+create table  minka-ach-dw.temp.action_summary as
+select action_transfer_id, min(created) as created, max(updated) as updated , type, sum(count) as count ,ARRAY_AGG(whole_status) as status
 from(
- select transferId, type,sum(count) as count,
+ select action_transfer_id, type,sum(count) as count,
  STRUCT(
       status,
       STRUCT(sum(count) as total,sum(with_hash) as with_hash,sum(without_hash)as without_hash) as count,
@@ -11,10 +11,10 @@ from(
     )as whole_status,
  min(created) as created, max(updated) as updated
  FROM(
-    select transferId, type,status,JSON_EXTRACT(error,'$.code') as code,JSON_EXTRACT(error,'$.message') as message, count(*) as count,
-    sum(IF(JSON_EXTRACT(labels,"$.hash")<> '"PENDING"',1,0)) as with_hash, sum(IF(JSON_EXTRACT(labels,"$.hash")='"PENDING"',1,0)) as without_hash,
-    min(created) as created, max(updated) as updated
+    select action_transfer_id, type,action_status as status, error_code as code,error_code as message, count(*) as count,
+    sum(IF(action_hash<> '"PENDING"',1,0)) as with_hash, sum(IF(action_hash='"PENDING"',1,0)) as without_hash,
+    min(action_created) as created, null as updated
     From temp.action_new_downloads
-    group by transferId,type,status,error)as T1
-  group by transferId,type,status) as T2
-group by transferId, type
+    group by action_transfer_id,type,action_status,error_code)as T1
+  group by action_transfer_id,type,status) as T2
+group by action_transfer_id, type
