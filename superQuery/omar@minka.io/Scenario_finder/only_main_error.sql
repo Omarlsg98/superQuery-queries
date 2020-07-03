@@ -1,5 +1,29 @@
 SELECT
-   count(transfer_id)
+   transfer_id
+   ,type AS transfer_type
+   ,status AS transfer_status
+   ,error.code AS transfer_error_code
+   ,error.message AS transfer_error_message
+   ,main_action.status[offset(0)].status AS main_action_status
+   ,main_action.status[offset(0)].count.with_hash AS main_action_count
+   ,upload.status[offset(0)].status AS upload_status
+   ,upload.status[offset(0)].count.with_hash AS upload_count
+   ,download_source.status[offset(0)].status AS download_source_status
+   ,download_source.status[offset(0)].count.with_hash AS download_source_count_signed
+   ,tx_id
+   ,tx_labels_id
+   ,source
+   ,source_wallet
+   ,source_signer
+   ,source_bank
+   ,target
+   ,target_wallet
+   ,target_signer
+   ,target_bank
+   ,amount
+   ,created
+   ,updated
+   ,source_channel
 FROM
     minka-ach-dw.temp.tx_n_actions as t
 WHERE
