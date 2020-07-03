@@ -25,7 +25,7 @@ SELECT
    ,updated
    ,source_channel
 FROM
-    ach-tin-prd.temp.tx_n_actions as t
+    minka-ach-dw.temp.tx_n_actions as t
 WHERE
     upload.count is null 
     AND main_action.count=1 
