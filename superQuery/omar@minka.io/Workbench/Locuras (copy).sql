@@ -23,11 +23,11 @@ SELECT
     ,transaction_hash
     ,action_hash
 FROM 
-    minka-ach-dw.ach_tin.transaction trans
-LEFT JOIN 
-    cases ON cases.transfer_source=trans.target
+    minka-ach-dw.ach_tin.transaction trans,
+    cases
 WHERE
     CAST(amount AS FLOAT64)=transfer_amount
+    AND cases.transfer_source=trans.target
     AND
         DATETIME(TIMESTAMP(SUBSTR(created,1,19)))
         BETWEEN DATETIME_SUB(DATETIME(TIMESTAMP(SUBSTR(action_created,1,19))), INTERVAL 5 MINUTE)
