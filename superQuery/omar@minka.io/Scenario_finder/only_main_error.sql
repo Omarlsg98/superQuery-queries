@@ -37,3 +37,4 @@ WHERE
     AND source_channel!='"MassTransferCLI"'
     AND EXISTS (SELECT 1 FROM UNNEST(main_action.status) WHERE status IN ("ERROR")) 
     AND status="ERROR"
+    AND transfer_id IN ("8vBbp2nQ9dbpdzjgT")
