@@ -14,13 +14,16 @@ SELECT
     ,amount
     ,created
     ,transaction_hash
+    ,action_source
+    ,transfer_amount
+    ,transfer_created
+    ,action_hash
 FROM 
     minka-ach-dw.ach_tin.transaction trans
 LEFT JOIN 
     cases ON cases.action_source=trans.target
 WHERE
     CAST(amount AS FLOAT64)=transfer_amount
-    AND action_hash=transaction_hash
     AND  TIMESTAMP(created) 
         BETWEEN  TIMESTAMP_SUB(TIMESTAMP(transfer_created), INTERVAL 5 MINUTE)
         AND TIMESTAMP_ADD(TIMESTAMP(transfer_created), INTERVAL 5 MINUTE)
