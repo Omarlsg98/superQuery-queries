@@ -3,33 +3,33 @@ create table ach-tin-prd.temp.action_new_downloads as (
   select
     *
   EXCEPT
-    (type),
-    type
+    (action_type),
+    action_type as type
   from
-    ach-tin-prd.sql_dump.action
+   minka-ach-dw.ach_tin_20200701_1415.action
   where
-    type not in ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
+    action_type not in ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
   UNION
     DISTINCT
   select
     *
   EXCEPT
-    (type, txId, tx_sourceSigner, tx_targetSigner),
+    (action_type, txId, tx_sourceSigner, tx_targetSigner),
     IF(
       tx_sourceSigner = tx_targetSigner,
       "DOWNLOAD_AMBIGUOUS",
       IF(
-        act.sourceSigner = tx_targetSigner,
+        act.action_source = tx_targetSigner,
         "DOWNLOAD_TARGET",
         IF(
-          act.sourceSigner = tx_sourceSigner,
+          act.action_source = tx_sourceSigner,
           "DOWNLOAD_SOURCE",
           "DOWNLOAD_AMBIGUOUS"
         )
       )
     ) as type
   from
-    ach-tin-prd.sql_dump.action act
+     minka-ach-dw.ach_tin_20200701_1415.action act
     Inner join (
       select
         transfer_id as txId,
@@ -37,7 +37,7 @@ create table ach-tin-prd.temp.action_new_downloads as (
         target_signer as tx_targetSigner
       from
         ach-tin-prd.sql_dump.transfer
-    ) as tx ON tx.txId = act.transferId
+    ) as tx ON tx.txId = act.action_transfer_id
   where
-    act.type in ("DOWNLOAD")
+    act.action_type in ("DOWNLOAD")
 )
