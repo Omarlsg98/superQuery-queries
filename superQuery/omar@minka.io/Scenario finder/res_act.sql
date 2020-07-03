@@ -30,7 +30,7 @@ SELECT
     ,target_bank
     ,STRING_AGG(transfer_id)
 FROM
-    ach-tin-prd.temp.tx_n_actions
+    minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE
     upload.count is null 
