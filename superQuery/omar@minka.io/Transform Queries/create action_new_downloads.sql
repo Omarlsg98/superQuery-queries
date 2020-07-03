@@ -1,5 +1,5 @@
 /*ACTION NEW DOWNLOADS*/
-create table ach-tin-prd.temp.action_new_downloads as (
+create table minka-ach-dw.temp.action_new_downloads as (
   select
     *
   EXCEPT
