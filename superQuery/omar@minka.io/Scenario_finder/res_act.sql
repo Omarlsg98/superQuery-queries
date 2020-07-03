@@ -9,7 +9,7 @@ SELECT
         String_AGG(CONCAT(status," ",count.total), " || ")
     FROM
         UNNEST(main_action.status)) as main_action_
-    ,(SELECT 
+    ,(SELECT  
         String_AGG(CONCAT(status," ",count.total), " || ") 
     FROM
         UNNEST(download_target.status)) as download_target_
@@ -33,8 +33,8 @@ FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-    transfer_id IN ("8vBbp2nQ9dbpdzjgT")
-
+    status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
+    AND created BETWEEN "2020-04-01" AND "2020-07"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
