@@ -1,0 +1,1 @@
+DROP TABLE minka-ach-dw.temp.tx_n_actions
