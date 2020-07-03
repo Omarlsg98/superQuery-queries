@@ -1,5 +1,5 @@
 /*---------------RESACT--------------------*/
-SELECT
+SELECT 
     status
     ,(SELECT
         String_AGG(CONCAT(status," ",count.total), " || ")
