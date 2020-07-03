@@ -1,5 +1,5 @@
 WITH  cases AS  (SELECT
-        action_source
+        transfer_source
         ,transfer_amount
         ,action_created
         ,action_hash
@@ -15,7 +15,7 @@ SELECT
     ,source
     ,transfer_source_bank
     ,target
-    ,action_source
+    ,transfer_source
     ,amount
     ,transfer_amount
     ,created
@@ -25,7 +25,7 @@ SELECT
 FROM 
     minka-ach-dw.ach_tin.transaction trans
 LEFT JOIN 
-    cases ON cases.action_source=trans.target
+    cases ON cases.transfer_source=trans.target
 WHERE
     CAST(amount AS FLOAT64)=transfer_amount
     AND
