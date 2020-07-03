@@ -1,5 +1,5 @@
 SELECT
-   transfer_id
+   transfer_id 
    ,type AS transfer_type
    ,status AS transfer_status
    ,error.code AS transfer_error_code
