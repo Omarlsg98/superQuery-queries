@@ -1,7 +1,7 @@
 WITH  cases AS  (SELECT
         action_source
         ,transfer_amount
-        ,transfer_created
+        ,action_created
         ,action_hash
     FROM
         minka-ach-dw.ach_tin_20200701_1415.transfer_action
@@ -16,7 +16,7 @@ SELECT
     ,transaction_hash
     ,action_source
     ,transfer_amount
-    ,transfer_created
+    ,action_created
     ,action_hash
 FROM 
     minka-ach-dw.ach_tin.transaction trans
@@ -25,6 +25,6 @@ LEFT JOIN
 WHERE
     CAST(amount AS FLOAT64)=transfer_amount
     AND  TIMESTAMP(created) 
-        BETWEEN  TIMESTAMP_SUB(TIMESTAMP(transfer_created), INTERVAL 5 MINUTE)
-        AND TIMESTAMP_ADD(TIMESTAMP(transfer_created), INTERVAL 5 MINUTE)
+        BETWEEN  TIMESTAMP_SUB(TIMESTAMP(action_created), INTERVAL 5 MINUTE)
+        AND TIMESTAMP_ADD(TIMESTAMP(action_created), INTERVAL 5 MINUTE)
  
