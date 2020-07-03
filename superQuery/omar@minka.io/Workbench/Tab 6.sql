@@ -1,4 +1,4 @@
 SELECT
-  STRING_AGG(action_transfer_id,"','")
+  COUNT(*)
 FROM
    minka-ach-dw.temp.sql_ds_difference
