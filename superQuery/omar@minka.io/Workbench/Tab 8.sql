@@ -1,5 +1,8 @@
 SELECT
-    action_hash
+    transfer_id
 FROM
-    minka-ach-dw.ach_tin_20200702_1159.action
-LIMIT 100
+    minka-ach-dw.movii_bridge_log.movii_status_200702
+GROUP BY
+    transfer_id
+HAVING 
+    COUNT(*)=1
