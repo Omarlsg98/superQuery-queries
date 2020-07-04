@@ -1,4 +1,6 @@
- select
+/*ACTION NEW DOWNLOADS*/
+create table minka-ach-dw.temp.action_new_downloads as (
+  select
     *
   EXCEPT
     (action_type),
@@ -37,3 +39,4 @@
     ) as tx ON tx.txId = act.action_transfer_id
   where
     act.action_type in ("DOWNLOAD")
+)
