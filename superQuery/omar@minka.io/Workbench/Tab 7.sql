@@ -15,5 +15,5 @@ FROM
         minka-ach-dw.movii_bridge_log.movii_status_200702 as movii) AS movii
 LEFT JOIN
     minka-ach-dw.ach_tin_20200702_1159.transfer_action AS act
-     ON movii.transfer_id = act.transfer_id 
+     ON movii.transfer_id = UPPER(act.transfer_id)
         AND movii.action_type = act.action_type
