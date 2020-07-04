@@ -1,6 +1,9 @@
 SELECT
-    *
+    COUNT(*), "--"
 FROM 
-    minka-ach-dw.ach_tin_20200702_1159.transfer_action
-WHERE
-    UPPER(transfer_id)="KYAWYKUDSGDYDW1XO"
+    minka-ach-dw.movii_bridge_log.ach_bank_review
+UNION ALL
+SELECT
+    COUNT(*), "OK"
+FROM 
+    minka-ach-dw.movii_bridge_log.ach_bank_review_movii_ok
