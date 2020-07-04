@@ -1,4 +1,4 @@
-/*TX N ACTIONS*/ 
+/*TX N ACTIONS*/
 create table minka-ach-dw.temp.tx_n_actions as
 select * EXCEPT(error_code,error_message), STRUCT(error_code as code,error_message as message) as error,
   (select STRUCT(created, updated, count, status) 
@@ -19,4 +19,4 @@ select * EXCEPT(error_code,error_message), STRUCT(error_code as code,error_messa
   (select STRUCT(created, updated, count, status) 
   from minka-ach-dw.temp.action_summary asum
   where t.transfer_id=asum.action_transfer_id and asum.type="DOWNLOAD_AMBIGUOUS") as download_ambiguous
-from minka-ach-dw.ach_tin_20200702_1159.transfer t
+from minka-ach-dw.ach_tin_20200703_2000.transfer t
