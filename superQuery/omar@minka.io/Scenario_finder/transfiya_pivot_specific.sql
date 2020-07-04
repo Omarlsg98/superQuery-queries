@@ -41,7 +41,7 @@ WHERE
                 GROUP BY
                     transfer_id
                 HAVING 
-                    COUNT(*)>1)
+                    COUNT(*)=1)
     
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
