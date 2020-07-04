@@ -28,13 +28,12 @@ SELECT
     ,count(*) as number_cases
     ,source_bank
     ,target_bank
-    ,STRING_AGG(transfer_id)
+    ,ANY_VALUE(transfer_id) as example
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-   status IN ("ERROR","PENDING","INITIATED","ACCEPTED")
-    AND created BETWEEN "2020-04-01" AND "2020-07"
+    created BETWEEN "2020-04-01" AND "2020-07"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
