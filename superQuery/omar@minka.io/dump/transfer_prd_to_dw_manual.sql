@@ -1,4 +1,4 @@
-CREATE TABLE minka-ach-dw.ach_tin_20200703_2000.transfer AS
+CREATE TABLE minka-ach-dw.ach_tin_20200704_1630.transfer AS
 (
 SELECT
    * 
