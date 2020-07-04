@@ -12,7 +12,7 @@ UNION ALL
 SELECT
     COUNT(action_id)-2479, "action" as descr
 FROM
-    minka-ach-dw.ach_tin_20200702_1159.action
+    minka-ach-dw.ach_tin_20200703_2000.action
 WHERE 
     action_type not in ("ISSUE", "TOPUP", "WITHDRAW")
 UNION ALL
