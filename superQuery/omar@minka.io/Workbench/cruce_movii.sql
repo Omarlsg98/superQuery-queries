@@ -1,4 +1,4 @@
-CREATE TABLE  movii_transfer_200704_1630  AS
+CREATE TABLE minka-ach-dw.movii_bridge_log.movii_transfer_200704_1630  AS
 (
 SELECT
     t.transfer_id
