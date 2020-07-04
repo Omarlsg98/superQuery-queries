@@ -1,4 +1,4 @@
-CREATE TABLE minka-ach-dw.ach_tin_20200702_1159.action
+CREATE TABLE minka-ach-dw.ach_tin_20200703_2000.action
 AS (
 SELECT
     action_id
@@ -23,5 +23,5 @@ SELECT
     , snapshot.target.signer.labels.bankAccountType AS action_target_bankaccounttype
     , snapshot.target.signer.labels.bankAccountNumber AS action_target_bankaccountnum
 FROM 
-    ach-tin-prd-multireg.ach_tin_prod_datastore_20200702_1159.action
+    ach-tin-prd-multireg.ach_tin_prod_datastore_20200703_2000.action
 )
