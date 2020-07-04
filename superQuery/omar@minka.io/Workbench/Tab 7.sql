@@ -1,5 +1,5 @@
 SELECT
-    movii.transfer_id
+    movii.transfer_id AS movii_transfer_id
     ,act.transfer_id
     ,transfer_type
     ,action_id
