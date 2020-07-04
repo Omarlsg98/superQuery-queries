@@ -1,4 +1,4 @@
-/*ACTION SUMMARY*/
+/*ACTION SUMMARY*/ 
 create table  minka-ach-dw.temp.action_summary as
 select action_transfer_id, min(created) as created, max(updated) as updated , type, sum(count) as count ,ARRAY_AGG(whole_status) as status
 from(
