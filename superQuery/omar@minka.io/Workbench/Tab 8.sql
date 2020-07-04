@@ -1,5 +1,6 @@
 SELECT
     transfer_id
+    ,COUNT(*)
 FROM
     minka-ach-dw.movii_bridge_log.movii_status_200702
 GROUP BY
