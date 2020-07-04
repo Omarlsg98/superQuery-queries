@@ -3,7 +3,7 @@ SELECT
 FROM 
     minka-ach-dw.movii_bridge_log.ach_bank_review
 WHERE 
-    transfer_id NOT IN (
+    UPPER(transfer_id) NOT IN (
                     SELECT
                         transfer_id
                     FROM
