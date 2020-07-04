@@ -2,27 +2,27 @@
 SELECT 
     status
     ,(SELECT
-        String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+        String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM 
         UNNEST(upload.status)) as upload_
     ,(SELECT
-        String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+        String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM
         UNNEST(main_action.status)) as main_action_
     ,(SELECT  
-        String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+        String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM
         UNNEST(download_target.status)) as download_target_
     ,(SELECT 
-       String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+       String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM
         UNNEST(reject.status)) as reject_ 
     ,(SELECT 
-        String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+        String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM 
         UNNEST(download_source.status)) as download_source_
     ,(SELECT 
-       String_AGG(CONCAT(status," ",count.total, "/",count.without_hash), " || ")
+       String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM 
         UNNEST(download_ambiguous.status)) as download_ambiguous_
     ,count(*) as number_cases
@@ -45,7 +45,7 @@ WHERE
                 ON movii.transfer_id=UPPER(review.transfer_id)
         WHERE 
             movii.movii_status NOT IN ("Cambio Estado") 
-            AND bank_approval IN ("DAVIPLATA","Daviplata")
+            AND bank_approval IN ("Davivienda","DAVIPLATA")
        )
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
