@@ -19,7 +19,7 @@ LEFT JOIN
     minka-ach-dw.ach_tin.action
         ON action.action_id=logs.action_id)
 SELECT
-    COUNT(transfer_id)
+   *
 FROM
     transform
 WHERE 
