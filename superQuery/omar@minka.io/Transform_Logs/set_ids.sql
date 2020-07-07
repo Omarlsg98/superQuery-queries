@@ -2,7 +2,7 @@
 WITH logs AS
 (SELECT 
        timestamp
-        ,REGEXP_EXTRACT(textPayLoad,'([a-zA-Z]{17})') AS transfer_id
+        ,REGEXP_EXTRACT(textPayLoad,'([0-9a-zA-Z]{17})/b') AS transfer_id
         ,REGEXP_EXTRACT(textPayLoad,'([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})') AS action_id
        ,textPayLoad
     FROM 
@@ -19,14 +19,9 @@ LEFT JOIN
     minka-ach-dw.ach_tin.action
         ON action.action_id=logs.action_id) */
 SELECT
-   transfer_id
-   ,count(timestamp) as n
+   *
 FROM
-    logs
+    minka-ach-dw.ach_tin_logs.stdout
 WHERE 
-   textPayLoad NOT LIKE "%cron%"
-GROUP BY
-    transfer_id
-ORDER BY 
-    n DESC
+   textPayLoad LIKE "%sendActionWithIOU%"
 LIMIT 1000
