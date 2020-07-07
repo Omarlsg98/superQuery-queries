@@ -30,7 +30,6 @@ SELECT
   action_target,
   action_amount,
   action_symbol,
-  action_transfer_id,
   action_tx_id,
   action_type,
   action_status,
