@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS minka-ach-dw.ach_tin.action;
-CREATE TABLE minka-ach-dw.ach_tin.action
+CREATE TABLE minka-ach-dw.ach_tin_before.action_20200706
 AS (
 SELECT
     action_id
