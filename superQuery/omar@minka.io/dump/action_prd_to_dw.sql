@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS minka-ach-dw.ach_tin.action;
 CREATE TABLE minka-ach-dw.ach_tin.action
 AS (
 SELECT
