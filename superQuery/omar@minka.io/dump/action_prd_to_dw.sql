@@ -1,4 +1,5 @@
-CREATE TABLE minka-ach-dw.ach_tin_before.action_20200706
+DROP TABLE IF EXISTS minka-ach-dw.ach_tin.action;
+CREATE TABLE minka-ach-dw.ach_tin.action
 AS (
 SELECT
     action_id
@@ -6,7 +7,7 @@ SELECT
     , target AS action_target
     , amount AS action_amount
     , symbol AS action_symbol
-    , labels.tx_ref AS action_transfer_id
+    , labels.tx_ref AS transfer_id
     , labels.tx_id AS action_tx_id
     , labels.type AS action_type
     , labels.status AS action_status
@@ -24,4 +25,4 @@ SELECT
     , snapshot.target.signer.labels.bankAccountNumber AS action_target_bankaccountnum
 FROM 
     ach-tin-prd-multireg.ach_tin_prod_datastore.action
-)
+);
