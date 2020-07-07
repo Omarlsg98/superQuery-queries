@@ -15,7 +15,7 @@ SELECT
     , labels.created AS action_created
     , labels.updated AS action_udpated
     , labels.hash AS action_hash
-    , error.code.string AS error_code
+    , error.code.integer AS error_code
     , error.message.string AS error_message
     , snapshot.source.signer.labels.bankName AS action_source_bankname
     , snapshot.source.signer.labels.bankAccountType AS action_source_bankaccounttype
