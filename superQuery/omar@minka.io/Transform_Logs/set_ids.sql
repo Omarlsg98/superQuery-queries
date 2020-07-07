@@ -21,6 +21,9 @@ FROM
 LEFT JOIN 
     minka-ach-dw.ach_tin.action
         ON action.action_id=logs.action_id)
+SELECT 
+    COUNT(transfer_id)
+FROM (
 SELECT
    transfer_id
    ,count(*) as n
@@ -30,6 +33,4 @@ WHERE
     textPayLoad NOT LIKE "%cron%"
 GROUP BY
     transfer_id
-ORDER BY 
-    n DESC
-LIMIT 1000
+)
