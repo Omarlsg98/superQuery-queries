@@ -6,7 +6,10 @@ WITH logs AS
         ,REGEXP_EXTRACT(textPayLoad,'([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})') AS action_id
        ,textPayLoad
     FROM 
-        minka-ach-dw.ach_tin_logs.stdout)
+        minka-ach-dw.ach_tin_logs.stdout
+    WHERE
+        textPayLoad NOT LIKE "%sendActionWithIOU%"
+    )
 /*,transform AS
 (SELECT
     timestamp
@@ -19,9 +22,12 @@ LEFT JOIN
     minka-ach-dw.ach_tin.action
         ON action.action_id=logs.action_id) */
 SELECT
-   *
+   transfer_id
+   ,count(*) as n
 FROM
-    minka-ach-dw.ach_tin_logs.stdout
-WHERE 
-   textPayLoad LIKE "%sendActionWithIOU%"
+    logs
+GROUP BY
+    transfer_id
+ORDER BY 
+    n DESC
 LIMIT 1000
