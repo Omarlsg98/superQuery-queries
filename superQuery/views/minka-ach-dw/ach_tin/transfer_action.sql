@@ -1,5 +1,5 @@
 SELECT
-  transfer_id,
+  transfer.transfer_id AS transfer_id,
   tx_id,
   source,
   source_wallet,
@@ -47,4 +47,4 @@ SELECT
   action_target_bankaccountnum
 FROM
   minka-ach-dw.ach_tin.transfer
-  INNER JOIN minka-ach-dw.ach_tin.action ON action_transfer_id = transfer_id
+  INNER JOIN minka-ach-dw.ach_tin.action ON action.transfer_id = transfer.transfer_id
