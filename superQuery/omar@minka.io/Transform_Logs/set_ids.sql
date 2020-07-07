@@ -23,5 +23,5 @@ SELECT
 FROM
     transform
 WHERE 
-    transfer_id IS NULL
-    AND action_id IS NOT NULL
+    transfer_id IS NOT NULL
+LIMIT 200
