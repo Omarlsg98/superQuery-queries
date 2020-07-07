@@ -13,7 +13,7 @@ WITH logs AS
 ,transform AS
 (SELECT
     timestamp
-    ,IF(logs.transfer_id IS NULL, action.transfer_id,logs.transfer_id) as transfer_id
+    ,action.transfer_id AS transfer_id
     ,logs.action_id
     ,textPayLoad
 FROM 
