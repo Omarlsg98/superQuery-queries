@@ -7,7 +7,7 @@ WITH logs AS
        ,textPayLoad
     FROM 
         minka-ach-dw.ach_tin_logs.stdout)
-,transform AS
+/*,transform AS
 (SELECT
     timestamp
     ,IF(logs.transfer_id IS NULL, action.transfer_id,logs.transfer_id) as transfer_id
@@ -17,12 +17,12 @@ FROM
     logs
 LEFT JOIN 
     minka-ach-dw.ach_tin.action
-        ON action.action_id=logs.action_id)
+        ON action.action_id=logs.action_id) */
 SELECT
    transfer_id
    ,count(timestamp) as n
 FROM
-    transform
+    logs
 WHERE 
    textPayLoad NOT LIKE "%cron%"
 GROUP BY
