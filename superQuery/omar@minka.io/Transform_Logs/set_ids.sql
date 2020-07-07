@@ -19,9 +19,14 @@ LEFT JOIN
     minka-ach-dw.ach_tin.action
         ON action.action_id=logs.action_id)
 SELECT
-   *
+   transfer_id
+   ,count(timestamp) as n
 FROM
     transform
 WHERE 
-    transfer_id IS NOT NULL
-LIMIT 200
+   textPayLoad NOT LIKE "%cron%"
+GROUP BY
+    transfer_id
+ORDER BY 
+    n DESC
+LIMIT 1000
