@@ -6,7 +6,7 @@ create table minka-ach-dw.temp.action_new_downloads as (
     (action_type),
     action_type as type
   from
-   minka-ach-dw.ach_tin_20200704_1630.action
+   minka-ach-dw.ach_tin.action
   where
     action_type not in ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
   UNION ALL
@@ -28,15 +28,15 @@ create table minka-ach-dw.temp.action_new_downloads as (
       )
     ) as type
   from
-     minka-ach-dw.ach_tin_20200704_1630.action act
+     minka-ach-dw.ach_tin.action act
     Inner join (
       select
         transfer_id as txId,
         source_signer as tx_sourceSigner,
         target_signer as tx_targetSigner
       from
-        minka-ach-dw.ach_tin_20200704_1630.transfer
-    ) as tx ON tx.txId = act.action_transfer_id
+        minka-ach-dw.ach_tin.transfer
+    ) as tx ON tx.txId = act.transfer_id
   where
     act.action_type in ("DOWNLOAD")
 )
