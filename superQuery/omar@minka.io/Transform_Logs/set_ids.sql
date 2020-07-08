@@ -10,7 +10,7 @@ logs AS
         ,REGEXP_EXTRACT(textPayLoad,'([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})') AS action_id
        ,textPayLoad
     FROM 
-        minka-ach-dw.ach_tin_logs.stdout
+        ach-tin-prd.achtin_logs.stdout
     WHERE
         textPayLoad NOT LIKE "%sendActionWithIOU%"
     )
