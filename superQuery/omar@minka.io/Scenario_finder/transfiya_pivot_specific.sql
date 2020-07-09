@@ -33,16 +33,7 @@ FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-   UPPER(transfer_id) IN (
-                SELECT
-                    transfer_id
-                FROM
-                    minka-ach-dw.movii_bridge_log.movii_status_200702
-                GROUP BY
-                    transfer_id
-                HAVING 
-                    COUNT(*)=1)
-    
+   created> "2020-07-09T23:00" 
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
