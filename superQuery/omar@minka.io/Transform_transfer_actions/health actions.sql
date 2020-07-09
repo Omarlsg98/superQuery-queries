@@ -6,7 +6,7 @@ SELECT
     + SUM(download_ambiguous.count)
     + SUM(reject.count) as total_actions
     , "tx_n_actions" as descr
-FROM
+FROM 
     minka-ach-dw.temp.tx_n_actions
 UNION ALL
 SELECT
