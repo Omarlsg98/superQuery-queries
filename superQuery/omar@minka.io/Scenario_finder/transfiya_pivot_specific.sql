@@ -33,7 +33,7 @@ FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-   created> "2020-07-09T23:00" 
+   created> "2020-07-08T23:00" 
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
