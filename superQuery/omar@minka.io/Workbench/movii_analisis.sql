@@ -56,6 +56,6 @@ WHERE
 )
 SELECT
     COUNTIF(match=0) as macth_0
-    ,COUNTIF(macth!=0) as no_match
+    ,COUNTIF(match!=0) as no_match
 FROM
     match_table
