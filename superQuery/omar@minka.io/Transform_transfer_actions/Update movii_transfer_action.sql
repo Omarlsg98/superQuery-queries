@@ -11,4 +11,6 @@ FROM
     `minka-ach-dw.movii_bridge_log.movii_logs_20_07_09` AS movii
 LEFT JOIN   minka-ach-dw.ach_tin.transfer ON UPPER(transfer.transfer_id)=movii.cell_id
 LEFT JOIN   minka-ach-dw.ach_tin.action ON movii.cell_id = UPPER(action.transfer_id)
+WHERE 
+    transfer_id="9p6hhE32ZvakHTCHi"
 LIMIT 10
