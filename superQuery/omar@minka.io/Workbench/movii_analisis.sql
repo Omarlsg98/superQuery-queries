@@ -55,7 +55,7 @@ WHERE
     action.transfer_id IS NOT NULL
 )
 SELECT
-    COUNTIF(match=0) as macth_0
+    COUNTIF(match=0) as it_macth
     ,COUNTIF(match!=0) as no_match
 FROM
     match_table
