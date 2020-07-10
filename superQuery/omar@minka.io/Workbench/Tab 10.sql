@@ -1,3 +1,4 @@
+WITH temp1 AS (
 SELECT
     transfer.transfer_id AS transfer_id
     ,movii.transfer_id AS movii_transfer_id
@@ -19,4 +20,8 @@ LEFT JOIN
     minka-ach-dw.ach_tin.transfer ON transfer.transfer_id=UPPER(movii.cell_id)
 WHERE
     transfer.transfer_id IS NOT NULL
-LIMIT 100
+)
+SELECT 
+COUNT(*)
+FROM
+    temp1
