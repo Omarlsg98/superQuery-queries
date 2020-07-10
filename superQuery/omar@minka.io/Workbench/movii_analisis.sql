@@ -38,12 +38,14 @@ WHERE
 GROUP BY
     transfer_id
 )
+,match_table AS 
+(
 SELECT 
     movii.transfer_id AS movii_transfer_id
     ,action.transfer_id AS action_transfer_id
     ,movii.balance AS movii_balance
     ,action.balance AS action_balance
-    ,(movii.balance + action.balance) AS cuadre
+    ,(movii.balance + action.balance) AS match
 FROM
     movii_balance AS movii
 LEFT JOIN
@@ -51,3 +53,9 @@ LEFT JOIN
         ON UPPER(action.transfer_id)= movii.transfer_id
 WHERE
     action.transfer_id IS NOT NULL
+)
+SELECT
+    COUNTIF(match=0) as macth_0
+    ,COUNTIF(macth!=0) as no_match
+FROM
+    match_table
