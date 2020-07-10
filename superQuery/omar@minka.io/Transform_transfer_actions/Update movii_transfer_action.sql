@@ -1,6 +1,6 @@
 SELECT 
     movii.transfer_id
-  , SUBSTR(movii.transfer_id,1,2) AS movii_type
+  , SUBSTR(movii_transfer_id,1,2) AS movii_type
   ,* EXCEPT(transfer_id,amount, error_code, error_message)
   , transfer.amount AS amount
   , transfer.error_code AS transfer_error_code
