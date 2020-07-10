@@ -1,4 +1,4 @@
-WITH temp1 AS (
+CREATE TABLE minka-ach-dw.movii_bridge_log.movii_logs_20_07_09 AS (
 SELECT
     transfer.transfer_id AS transfer_id
     ,movii.transfer_id AS movii_transfer_id
@@ -21,7 +21,3 @@ LEFT JOIN
 WHERE
     transfer.transfer_id IS NOT NULL
 )
-SELECT 
-COUNT(*)
-FROM
-    minka-ach-dw.movii_bridge_log.movii_logs_20_07_09_gc
