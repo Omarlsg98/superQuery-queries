@@ -43,11 +43,11 @@ SELECT
     ,action.transfer_id AS action_transfer_id
     ,movii.balance AS movii_balance
     ,action.balance AS action_balance
+    ,(movii.balance + action.balance) AS cuadre
 FROM
     movii_balance AS movii
 LEFT JOIN
     action_balance AS action
         ON UPPER(action.transfer_id)= movii.transfer_id
 WHERE
-    action.transfer_id IS NULL
-LIMIT 10
+    action.transfer_id IS NOT NULL
