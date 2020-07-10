@@ -33,6 +33,7 @@ FROM
     minka-ach-dw.ach_tin.action
 WHERE
     action_type IN ("DOWNLOAD", "UPLOAD")
+    AND action_hash!="PENDING"
     AND (action_source_signer="wVCmBRk2jz5fBi47kpzGZezoovzfudv6L2" 
         OR action_target_signer="wVCmBRk2jz5fBi47kpzGZezoovzfudv6L2")
 GROUP BY
@@ -59,3 +60,5 @@ SELECT
     ,COUNTIF(match!=0) as no_match
 FROM
     match_table
+WHERE
+    match!=0
