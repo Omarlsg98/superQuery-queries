@@ -44,8 +44,7 @@ GROUP BY
 SELECT 
     movii.transfer_id AS movii_transfer_id
     ,action.transfer_id AS action_transfer_id
-    ,movii_balance
-    ,action_balance
+    ,* EXCEPT (transfer_id)
     ,(movii_balance + action_balance) AS match
 FROM
     movii_balance AS movii
@@ -56,7 +55,8 @@ WHERE
     action.transfer_id IS NOT NULL
 )
 SELECT
-    COUNTIF(match=0) as it_macth
-    ,COUNTIF(match!=0) as no_match
+    *
 FROM
     match_table
+WHERE
+    match!=0
