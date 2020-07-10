@@ -1,4 +1,4 @@
- CREATE TABLE minka-ach-dw.ach_tin_logs.movii_logs_20_07_09_gc AS
+ CREATE TABLE minka-ach-dw.movii_bridge_log.movii_logs_20_07_09_gc AS
  SELECT 
      CELL_ID AS cell_id
      ,TRANSFER_ID AS transfer_id
