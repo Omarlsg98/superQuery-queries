@@ -22,7 +22,7 @@ FROM
 GROUP BY
     transfer_id
 )
-, actions_balance AS 
+, action_balance AS 
 (
 SELECT 
     transfer_id
@@ -39,7 +39,15 @@ GROUP BY
     transfer_id
 )
 SELECT 
-    * 
+    movii.transfer_id AS movii_transfer_id
+    ,action.transfer_id AS action_transfer_id
+    ,movii.balance AS movii_balance
+    ,action.balance AS action_balance
 FROM
-    actions_balance
+    movii_balance AS movii
+LEFT JOIN
+    action_balance AS action
+        ON UPPER(action.transfer_id)= movii.transfer_id
+WHERE
+    action.transfer_id IS NULL
 LIMIT 10
