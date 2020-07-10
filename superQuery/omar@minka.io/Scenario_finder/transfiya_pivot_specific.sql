@@ -1,6 +1,7 @@
 /*---------------RESACT--------------------*/
 SELECT 
     transfer_id
+    ,type AS transfer_type
     ,status AS transfer_status
     ,(SELECT
         String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
