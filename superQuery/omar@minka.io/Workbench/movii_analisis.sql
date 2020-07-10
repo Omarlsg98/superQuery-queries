@@ -22,9 +22,22 @@ FROM
 GROUP BY
     transfer_id
 )
-SELECT
-    *
+, actions_balance AS 
+(
+SELECT 
+    transfer_id
+    , COUNTIF(action_type="DOWNLOAD") AS downloads
+    , COUNTIF(action_type="UPLOAD") AS uploads
+    , SUM(IF(action_type="DOWNLOAD",CAST(action_amount AS FLOAT64),-CAST(action_amount AS FLOAT64))) AS balance
 FROM
-    movii_balance
-ORDER BY balance ASC
+    minka-ach-dw.ach_tin.action
+WHERE
+    action_type IN ("DOWNLOAD", "UPLOAD")
+GROUP BY
+    transfer_id
+)
+SELECT 
+    * 
+FROM
+    actions_balance
 LIMIT 10
