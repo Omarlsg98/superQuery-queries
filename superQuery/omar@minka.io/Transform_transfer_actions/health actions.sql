@@ -20,3 +20,9 @@ SELECT
     COUNT(action_id), "action_new_downloads"
 FROM 
     minka-ach-dw.temp.action_new_downloads
+UNION ALL
+SELECT
+    SUM(count), "action_summary"
+FROM 
+    minka-ach-dw.temp.action_summary
+ORDER BY total_actions DESC
