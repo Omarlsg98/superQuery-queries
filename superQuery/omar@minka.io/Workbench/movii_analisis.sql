@@ -21,6 +21,8 @@ GROUP BY
     transfer_id
 )
 SELECT
-    count(transfer_id)
+    *
 FROM
     movii_balance
+ORDER BY balance ASC
+LIMIT 10
