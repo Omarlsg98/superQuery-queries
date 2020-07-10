@@ -21,8 +21,6 @@ GROUP BY
     transfer_id
 )
 SELECT
-    *
+    count(transfer_id)
 FROM
     movii_balance
-WHERE
-    healthcheck!=0
