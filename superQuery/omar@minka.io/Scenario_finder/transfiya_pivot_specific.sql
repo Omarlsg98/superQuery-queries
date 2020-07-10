@@ -1,6 +1,7 @@
 /*---------------RESACT--------------------*/
 SELECT 
-    status
+    transfer_id
+    ,status AS transfer_status
     ,(SELECT
         String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM 
@@ -25,16 +26,14 @@ SELECT
        String_AGG(CONCAT(status," ",count.total, "/",count.with_hash), " || ")
     FROM 
         UNNEST(download_ambiguous.status)) as download_ambiguous_
-    ,count(*) as number_cases
     ,source_bank
     ,target_bank
-    ,ANY_VALUE(transfer_id)
+    ,created
+    ,source_wallet
+    ,target_wallet
+    ,amount
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-   created BETWEEN "2020-07-08T23:00" AND "2020-07-10T09"
-GROUP BY
-    status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
-ORDER BY
-    number_cases DESC
+   status NOT IN ("PENDING","REJECTED","COMPLETED")
