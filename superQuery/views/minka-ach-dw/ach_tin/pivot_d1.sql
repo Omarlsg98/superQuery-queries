@@ -29,6 +29,7 @@ SELECT
     ,source_bank
     ,target_bank
     ,STRING_AGG(transfer_id) as cases
+    ,STRING_AGG(CONCAT(source_wallet,"|",transfer_id,"|",target_wallet)) as wallets_transfer
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
