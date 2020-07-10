@@ -35,7 +35,7 @@ FROM
 /*---WHERE---*/
 WHERE
     status IN ("PENDING")
-    AND CAST(created AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
+    AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
