@@ -29,12 +29,13 @@ SELECT
     ,source_bank
     ,target_bank
     ,STRING_AGG(transfer_id) as cases
+    ,STRING_AGG(CONCAT(source_wallet,"|",transfer_id,"|",target_wallet))
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE
     status IN ("PENDING")
-    AND DATETIME(created) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
+    AND CAST(created AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
