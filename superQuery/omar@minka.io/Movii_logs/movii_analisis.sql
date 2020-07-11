@@ -1,5 +1,5 @@
-DROP TABLE  minka-ach-dw.movii_bridge_log.movii_action_no_match_20_07_08;
-CREATE TABLE  minka-ach-dw.movii_bridge_log.movii_action_no_match_20_07_08 AS
+DROP TABLE  minka-ach-dw.movii_bridge_log.movii_action_match_20_07_08;
+CREATE TABLE  minka-ach-dw.movii_bridge_log.movii_action_match_20_07_08 AS
 (WITH 
 movii_types AS 
 (    SELECT 
@@ -59,6 +59,4 @@ SELECT
     *
 FROM
     match_table
-WHERE
-    match!=0
 )
