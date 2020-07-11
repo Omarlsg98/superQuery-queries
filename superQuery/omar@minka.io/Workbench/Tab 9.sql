@@ -1,6 +1,4 @@
-SELECT 
- * 
+SELECT
+    MAX(created)
 FROM
-    minka-ach-dw.ach_tin.transfer
-WHERE
-    transfer_id ="9M7CKv8u9YvPs6iRw"
+    minka-ach-dw.movii_bridge_log.movii_logs_20_07_09
