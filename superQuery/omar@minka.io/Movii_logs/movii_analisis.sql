@@ -1,4 +1,6 @@
-WITH 
+DROP TABLE  minka-ach-dw.movii_bridge_log.movii_action_no_match_20_07_08;
+CREATE TABLE  minka-ach-dw.movii_bridge_log.movii_action_no_match_20_07_08 AS
+(WITH 
 movii_types AS 
 (    SELECT 
         SUBSTR(movii_transfer_id,1,2) AS type
@@ -57,3 +59,6 @@ SELECT
     *
 FROM
     match_table
+WHERE
+    match!=0
+)
