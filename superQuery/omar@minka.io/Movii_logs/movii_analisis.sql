@@ -15,8 +15,7 @@ SELECT
     transfer_id
     , COUNTIF(type="CI") AS cashins
     , COUNTIF(type="MP") AS cashouts
-    , SUM(IF(type="CI",amount,-amount)) AS movii_balance
-    , MIN(amount)-MAX(amount) AS healthcheck
+    , SUM(IF(type="CI",CAST(amount AS FLOAT64),-CAST(amount AS FLOAT64))) AS movii_balance
 FROM
     movii_types
 GROUP BY
@@ -58,5 +57,3 @@ SELECT
     *
 FROM
     match_table
-WHERE
-    match!=0
