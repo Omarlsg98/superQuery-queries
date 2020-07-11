@@ -37,7 +37,4 @@ FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
 WHERE 
-   (status NOT IN ("PENDING","REJECTED","COMPLETED") 
-        AND created<"2020-07-10")
-   OR (status IN ("PENDING") 
-        AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY))
+     created BETWEEN "2020-07-07T23" AND "2020-07-11T09"
