@@ -1,4 +1,4 @@
-DROP TABLE minka-ach-dw.movii_bridge_log.movii_logs_20_07_09_date
+DROP TABLE minka-ach-dw.movii_bridge_log.movii_logs_20_07_09_date;
 CREATE TABLE minka-ach-dw.movii_bridge_log.movii_logs_20_07_09_date AS (
 SELECT
     movii.* EXCEPT(transfer_id)
