@@ -1,3 +1,4 @@
+DROP TABLE minka-ach-dw.temp.action_new_downloads;
 /*ACTION NEW DOWNLOADS*/
 create table minka-ach-dw.temp.action_new_downloads as (
   select
