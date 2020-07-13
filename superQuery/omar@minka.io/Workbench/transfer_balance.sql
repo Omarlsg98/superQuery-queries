@@ -4,7 +4,8 @@ SELECT
     ,source.signer AS source
     ,target_signer
     ,target.signer AS target
-    ,source.balance
+    ,source.balance AS source_signer_balance
+    ,target.balance AS target_signer_balance
 FROM
     minka-ach-dw.ach_tin.transfer
 LEFT JOIN 
@@ -12,5 +13,5 @@ LEFT JOIN
 LEFT JOIN 
     minka-ach-dw.ach_tin.signer_balance AS target ON transfer.target_signer=target.signer
 WHERE 
-    status="ERROR"
+    transfer_id="UDPz85pMXuRFwarSK"
 LIMIT 100
