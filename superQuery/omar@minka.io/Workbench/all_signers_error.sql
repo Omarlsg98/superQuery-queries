@@ -5,7 +5,7 @@ FROM
 WHERE
     source_signer IS NOT NULL
     AND status NOT IN ("REJECTED", "COMPLETED")
-UNION distinct
+UNION DISTINCT
 SELECT
     target_signer
 FROM
