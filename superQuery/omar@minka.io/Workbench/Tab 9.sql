@@ -1,5 +1,6 @@
 SELECT
-    CAST(created AS DATETIME)
-FROM
-    minka-ach-dw.movii_bridge_log.movii_logs_20_07_09
+    CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY),
+    CAST(SUBSTR(created,1,19) AS DATETIME), DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
+FROM 
+    transfer
 LIMIT 10
