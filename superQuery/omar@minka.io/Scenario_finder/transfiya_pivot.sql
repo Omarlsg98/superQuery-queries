@@ -38,7 +38,7 @@ FROM
     AND created BETWEEN CAST(DATE_SUB(CURRENT_DATE("America/Bogota"),INTERVAL 1 DAY) AS STRING) AND  CAST(CURRENT_DATE("America/Bogota") AS STRING)
 */
 WHERE 
-     created BETWEEN "2020-07-07T23" AND "2020-07-12T09"
+     created BETWEEN "2020-07-10" AND "2020-07-13"
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
