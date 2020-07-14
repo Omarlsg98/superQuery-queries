@@ -20,10 +20,14 @@ SELECT
     , snapshot.source.signer.labels.bankName AS action_source_bankname
     , snapshot.source.signer.labels.bankAccountType AS action_source_bankaccounttype
     , snapshot.source.signer.labels.bankAccountNumber AS action_source_bankaccountnum
+    , snapshot.source.signer.labels.routerReference AS action_source_bankrouter
+    , snapshot.source.wallet.handle AS action_source_wallet
+    , snapshot.source.signer.handle AS action_source_signer
     , snapshot.target.signer.labels.bankName AS action_target_bankname
     , snapshot.target.signer.labels.bankAccountType AS action_target_bankaccounttype
     , snapshot.target.signer.labels.bankAccountNumber AS action_target_bankaccountnum
-    , snapshot.source.signer.handle AS action_source_signer
+    , snapshot.target.signer.labels.routerReference AS action_target_bankrouter
+    , snapshot.target.wallet.handle AS action_target_wallet
     , snapshot.target.signer.handle AS action_target_signer
 FROM 
     ach-tin-prd-multireg.ach_tin_prod_datastore.action
