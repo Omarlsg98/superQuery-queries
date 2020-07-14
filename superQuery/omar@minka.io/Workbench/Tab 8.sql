@@ -1,14 +1,6 @@
 SELECT
-    *
-FROM 
-    minka-ach-dw.movii_bridge_log.ach_bank_review
-WHERE 
-    UPPER(transfer_id) NOT IN (
-                    SELECT
-                        transfer_id
-                    FROM
-                        minka-ach-dw.movii_bridge_log.movii_status_200702
-                    GROUP BY
-                        transfer_id
-                    HAVING 
-                        COUNT(*)>1)
+    COUNT(*)
+FROM
+    minka-ach-dw.ach_tin.transfer
+WHERE
+    status NOT IN ("COMPLETED","REJECTED")
