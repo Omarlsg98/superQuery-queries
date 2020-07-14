@@ -43,11 +43,11 @@ LEFT JOIN
     AND created BETWEEN CAST(DATE_SUB(CURRENT_DATE("America/Bogota"),INTERVAL 1 DAY) AS STRING) AND  CAST(CURRENT_DATE("America/Bogota") AS STRING)
 */
 WHERE 
-    created>"2020-04-08"
-    AND 
     (status NOT IN ("PENDING","REJECTED","COMPLETED")
-    OR (status IN ("PENDING")
-        AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 2 DAY)))
+        AND created BETWEEN CAST(DATE_SUB(CURRENT_DATE("America/Bogota"),INTERVAL 1 DAY) AS STRING) AND  CAST(CURRENT_DATE("America/Bogota") AS STRING))
+    OR 
+    (status IN ("PENDING")
+        AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 30 HOUR))
 GROUP BY
     status
     ,upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_
