@@ -1,8 +1,11 @@
 SELECT
-    CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY),
-    CAST(SUBSTR(created,1,19) AS DATETIME), DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 1 DAY)
-FROM 
-    minka-ach-dw.ach_tin.transfer
-ORDER BY 
-    created DESC
-LIMIT 10
+    action_source_bankname
+    ,error_code
+    ,error_message
+    ,count(transfer_id)
+FROM
+    minka-ach-dw.ach_tin.action
+GROUP BY
+    error_code
+    ,error_message
+    ,action_source_bankname
