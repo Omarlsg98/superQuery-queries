@@ -11,7 +11,7 @@ SELECT
 FROM
     minka-ach-dw.ach_tin.action
 WHERE
-    action_source_bankname IS NOT NULL 
+    action_source_bankrouter IS NOT NULL 
 GROUP BY
     error_code
     ,error_message
