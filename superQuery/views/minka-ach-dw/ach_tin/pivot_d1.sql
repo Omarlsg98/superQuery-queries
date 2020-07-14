@@ -1,4 +1,3 @@
-/*---------------RESACT--------------------*/
 SELECT 
     status
     ,(SELECT
@@ -32,10 +31,12 @@ SELECT
     ,STRING_AGG(CONCAT(source_wallet,"|",transfer_id,"|",target_wallet)) as wallets_transfer
 FROM
     minka-ach-dw.temp.tx_n_actions
-/*---WHERE---*/
-WHERE
-    status NOT IN ("PENDING","REJECTED","COMPLETED")
-    AND created BETWEEN CAST(DATE_SUB(CURRENT_DATE("America/Bogota"),INTERVAL 1 DAY) AS STRING) AND  CAST(CURRENT_DATE("America/Bogota") AS STRING)
+WHERE 
+        (status NOT IN ("PENDING","REJECTED","COMPLETED")
+            AND created BETWEEN CAST(DATE_SUB(CURRENT_DATE("America/Bogota"),INTERVAL 1 DAY) AS STRING) AND  CAST(CURRENT_DATE("America/Bogota") AS STRING))
+    OR 
+        (status IN ("PENDING")
+            AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 30 HOUR))
 GROUP BY
     status, upload_,main_action_,download_target_,reject_,download_source_,download_ambiguous_,source_bank,target_bank
 ORDER BY
