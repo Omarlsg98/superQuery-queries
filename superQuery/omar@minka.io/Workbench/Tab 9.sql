@@ -1,5 +1,5 @@
 SELECT
-    action_source_bankname AS bank
+    action_source_bankrouter AS bank
     ,CASE
         WHEN action_type="UPLOAD" THEN "debit"
         WHEN action_type="DOWNLOAD" THEN "credit"
@@ -15,7 +15,7 @@ WHERE
 GROUP BY
     error_code
     ,error_message
-    ,action_source_bankname
+    ,action_source_bankrouter
     ,endpoint_involved
 ORDER BY
     bank ASC
