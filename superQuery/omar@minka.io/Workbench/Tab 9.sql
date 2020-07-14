@@ -6,7 +6,8 @@ SELECT
 FROM
     minka-ach-dw.ach_tin.action
 WHERE
-    action_source_bankname IS NOT NULL
+    action_source_bankname IS NOT NULL 
+    OR action_source_bankname NOT IN ("Atenea","Zeus")
 GROUP BY
     error_code
     ,error_message
