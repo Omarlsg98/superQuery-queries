@@ -9,7 +9,7 @@ WHERE
         FROM
             minka-ach-dw.ach_tin.action
         WHERE
-            type="UPLOAD" AND status ="COMPLETED")
+            action_type="UPLOAD" AND action_status ="COMPLETED")
     AND
      transfer_id IN (
         SELECT
@@ -17,4 +17,4 @@ WHERE
         FROM
             minka-ach-dw.ach_tin.action
         WHERE
-            type="DOWNLOAD" AND status !="COMPLETED")
+            action_type="DOWNLOAD" AND action_status !="COMPLETED")
