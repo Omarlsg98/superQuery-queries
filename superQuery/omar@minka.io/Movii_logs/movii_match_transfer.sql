@@ -17,3 +17,4 @@ LEFT JOIN
 WHERE
     transfer.created>"2020-04-01"
     AND transfer.updated<"2020-07-09T13"
+    AND match.match!=0
