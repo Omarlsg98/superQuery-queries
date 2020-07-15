@@ -30,9 +30,11 @@ SELECT
     ,source_bank
     ,target_bank
     ,created
+    ,updated
     ,source_wallet
     ,target_wallet
     ,amount
+    ,source_channel
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
