@@ -44,7 +44,7 @@ SELECT
     movii.transfer_id AS movii_transfer_id
     ,action.transfer_id AS action_transfer_id
     ,* EXCEPT (transfer_id)
-    ,(movii_balance + action_balance) AS match
+    ,(movii_balance + IFNULL(action_balance,0)) AS match
 FROM
     movii_balance AS movii
 LEFT JOIN
