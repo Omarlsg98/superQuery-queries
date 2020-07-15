@@ -1,6 +1,7 @@
 SELECT
-    source_channel
+    *
 FROM
     minka-ach-dw.ach_tin.transfer
-GROUP BY 
-    source_channel
+WHERE 
+    source_channel!='"MassTransferCLI"'
+    AND created>"2020-04-08"
