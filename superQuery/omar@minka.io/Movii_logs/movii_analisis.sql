@@ -56,5 +56,5 @@ SELECT
 FROM
     match_table
 WHERE
-    action_transfer_id IS NULL
+    movii_transfer_id ="knz9wGw0ttSnrN0us"
 LIMIT 100
