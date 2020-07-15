@@ -1,3 +1,4 @@
+DROP TABLE  minka-ach-dw.movii_bridge_log.movii_match_20_07_08;
 CREATE TABLE  minka-ach-dw.movii_bridge_log.movii_match_20_07_08 AS
 (WITH 
 movii_types AS 
@@ -57,12 +58,12 @@ SELECT
     ,action_transfer_id
     ,cashins
     ,cashouts
-    , (cashins-cashouts) AS io_balance
+    , (cashins-cashouts) AS cico_balance
     ,movii_balance
-    ,downloads
-    ,uploads
-    , (downloads-uploads) AS du_balance
-    ,action_balance AS transfiya_balance
+    ,IFNULL(downloads,0) AS downloads
+    ,IFNULL(uploads,0) AS uploads
+    ,IFNULL((downloads-uploads),0) AS dwup_balance
+    ,IFNULL(action_balance,0) AS transfiya_balance
     ,match
 FROM
     match_table
