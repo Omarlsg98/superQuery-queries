@@ -18,3 +18,5 @@ WHERE
             minka-ach-dw.ach_tin.action
         WHERE
             action_type="DOWNLOAD" AND action_status !="COMPLETED")
+    AND 
+        source_bank="Movii"
