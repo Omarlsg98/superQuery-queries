@@ -20,3 +20,5 @@ WHERE
             action_type="DOWNLOAD" AND action_status !="COMPLETED")
     AND 
         source_bank="Movii"
+    AND 
+        created BETWEEN "2020-04-01" AND "2020-07-06"
