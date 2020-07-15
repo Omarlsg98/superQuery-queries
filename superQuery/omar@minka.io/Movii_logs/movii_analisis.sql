@@ -1,4 +1,5 @@
-WITH 
+CREATE TABLE  minka-ach-dw.movii_bridge_log.movii_match_20_07_08 AS
+(WITH 
 movii_types AS 
 (    SELECT 
         SUBSTR(movii_transfer_id,1,2) AS type
@@ -52,9 +53,17 @@ LEFT JOIN
         ON action.transfer_id= movii.transfer_id
 )
 SELECT
-    *
+    movii_transfer_id
+    ,action_transfer_id
+    ,cashins
+    ,cashouts
+    , (cashins-cashouts) AS io_balance
+    ,movii_balance
+    ,downloads
+    ,uploads
+    , (downloads-uploads) AS du_balance
+    ,action_balance AS transfiya_balance
+    ,match
 FROM
     match_table
-WHERE
-    movii_transfer_id ="knz9wGw0ttSnrN0us"
-LIMIT 100
+)
