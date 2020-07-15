@@ -8,3 +8,4 @@ LEFT JOIN
      ON transfer.transfer_id=match.movii_transfer_id
 WHERE
    movii_transfer_id="knz9wGw0ttSnrN0us"
+   OR action_transfer_id="knz9wGw0ttSnrN0us"
