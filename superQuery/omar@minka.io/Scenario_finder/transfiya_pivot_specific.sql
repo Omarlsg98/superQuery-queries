@@ -1,4 +1,4 @@
-/*---------------RESACT---------------   tx_error_pending_24h+_accepted_initiated -----*/
+/*---------------RESACT--------------------*/
 SELECT 
     transfer_id
     ,type AS transfer_type
@@ -30,11 +30,11 @@ SELECT
     ,source_bank
     ,target_bank
     ,created
+    ,updated
     ,source_wallet
     ,target_wallet
     ,amount
+    ,source_channel
 FROM
     minka-ach-dw.temp.tx_n_actions
 /*---WHERE---*/
-WHERE 
-     created BETWEEN "2020-07-07T23" AND "2020-07-11T09"
