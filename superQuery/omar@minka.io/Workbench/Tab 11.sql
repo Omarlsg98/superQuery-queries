@@ -1,6 +1,4 @@
-SELECT 
-    #SUBSTR(TRANSFER_ID,1,2) AS type
-    MIN(CAST(TRANSFER_ON AS STRING))
-    ,MAX(CAST(TRANSFER_ON AS STRING))
-FROM
-    `minka-ach-dw.movii_bridge_log.movii_logs_20_07_09`
+CREATE TABLE minka-ach-dw.movii_bridge_log.movii_diferencia_05_07_2020
+(
+    transfer_id STRING
+)
