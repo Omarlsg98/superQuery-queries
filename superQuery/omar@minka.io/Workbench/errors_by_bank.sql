@@ -12,6 +12,10 @@ FROM
     minka-ach-dw.ach_tin.action
 WHERE
     action_source_bankrouter IS NOT NULL 
+    AND (
+        (action_type="REJECT" AND action_status="ERROR")
+        OR NOT (action_type IN ("SEND","REQUEST") AND action_status="REJECTED" AND action_hash<> 'PENDING')
+    )
 GROUP BY
     error_code
     ,error_message
