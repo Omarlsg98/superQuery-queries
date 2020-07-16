@@ -1,4 +1,3 @@
-/*---------------RESACT--------------------*/
 SELECT 
     transfer_id
     ,type AS transfer_type
