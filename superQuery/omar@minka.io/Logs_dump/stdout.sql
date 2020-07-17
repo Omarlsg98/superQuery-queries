@@ -1,3 +1,4 @@
+DROP TABLE  minka-ach-dw.ach_tin_logs.stdout;
 CREATE TABLE minka-ach-dw.ach_tin_logs.stdout AS
 (
 SELECT 
