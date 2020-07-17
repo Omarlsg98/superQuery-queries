@@ -1,7 +1,9 @@
 SELECT
-    tx_place
-    ,COUNT(*)
-FROM 
+    COUNT(*),MAX(created),"transform"
+FROM
     minka-ach-dw.movii_bridge_log.movii_logs_transform
-GROUP BY
-    tx_place
+UNION ALL
+SELECT
+    COUNT(*),MAX(transfer_on),"logs"
+FROM
+    minka-ach-dw.movii_bridge_log.movii_logs_20_07_16
