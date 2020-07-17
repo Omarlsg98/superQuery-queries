@@ -13,6 +13,8 @@ SELECT
     ,movii.error_code AS error_code
     ,transfer_status AS transfer_status
     ,transfer.status AS cloud_status
+    ,transfer.source_bank
+    ,transfer.target_bank
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
@@ -33,6 +35,8 @@ SELECT
     ,movii.error_code AS error_code
     ,transfer_status AS transfer_status
     ,transfer.status AS cloud_status
+    ,transfer.source_bank
+    ,transfer.target_bank
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
