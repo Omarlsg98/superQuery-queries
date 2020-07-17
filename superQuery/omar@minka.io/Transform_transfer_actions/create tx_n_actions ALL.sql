@@ -1,4 +1,4 @@
-DROP TABLE minka-ach-dw.temp.tx_n_actions;
+
 create table minka-ach-dw.temp.tx_n_actions as(
 /*ACTION NEW DOWNLOADS*/
 WITH action_new_downloads as (
