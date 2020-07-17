@@ -1,40 +1,6 @@
 SELECT
-    transfer_id
-    ,amount
-    ,source_wallet
-    ,target_wallet
-FROM 
-    minka-ach-dw.ach_tin.transfer
-WHERE
-    transfer_id IN 
-('0U6G9LpvjAslfjgjQ',
-'XzcRLGnNGBcjkCrbE',
-'fOb827deUNn7FnDhH',
-'f4LlICFX7SR3jIUFn',
-'KmRrJvwqcblppSi8H',
-'EHB0BGMEV8Uiq0NLO',
-'rmhmZVPGP6xUrpejE',
-'b6B5kYebF3jEkS4uN',
-'Vw2rUnJSBeyNAMtTc',
-'tlWIuWi7xKnDsc5Vx',
-'IGWj8mkL9EbhRB46s',
-'3hHbi5GLSVv717lfC',
-'IYNjcES6gIyRCtWPw',
-'KYaWYkudSGdYDW1xo',
-'msjgUCqhcO4HBwQzm',
-'iZpDtPS1zAqf2TVXk',
-'Akw0G4v8Si77r2T1c',
-'2fFMcJe5nuKtYbkLS',
-'24v2yD2hsEmjvBtjr',
-'bmcXEFlAF1owdoOqw',
-'EMCfQGJIt6a4NMefh',
-'iaGxBMUZSrC623afq',
-'LGwyfhtHtytAP22Le',
-'Qi7B8dq4wqN86Aurz',
-'2M2PvgHaRgPzS7DYz',
-'dTVgiOAGaX8gxiDot',
-'qE8HxI2Yd4d8x8KJZ',
-'a0XSOBgwUHPH3srOQ',
-'jypLPt1JaL7Hj8k0j',
-'5h4v592KJxvTQZRUn',
-'CZqviEOJh22F6Jx3A')
+    * EXCEPT(cellphone,time)
+    , CAST(IF(LENGTH(CAST(time AS STRING))<8, CONCAT("0",time),CAST(time AS STRING)) AS TIME) AS time
+    ,CONCAT("$",cellphone) AS cellphone
+FROM
+    minka-ach-dw.movii_bridge_log.avvillas_manual_change
