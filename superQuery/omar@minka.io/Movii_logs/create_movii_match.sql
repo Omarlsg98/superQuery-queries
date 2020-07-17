@@ -98,7 +98,7 @@ SELECT
                     WHEN cico_source_balance!=-1 AND dwup_source_balance=-1 THEN CONCAT(" ",-cico_source_balance-1,"_cash_source")
                     WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
                     WHEN cico_source_balance=0 AND dwup_source_balance=0 THEN " make_UPLOAD"
-                    WHEN cico_source_balance NOT IN (0,-1) AND dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                    WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
                 END," "),
             IF(target_bank="Movii"
                 ,CASE
@@ -106,7 +106,7 @@ SELECT
                     WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",-cico_target_balance+1,"_cash_target")
                     WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
                     WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
-                    WHEN cico_target_balance NOT IN (0,1) AND dw_target  NOT IN (0,1) THEN " DANGER"
+                    WHEN dw_target  NOT IN (0,1) THEN " DANGER"
                 END,"")
                 )
             ,"")
@@ -118,7 +118,7 @@ SELECT
                     WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",-cico_source_balance,"_cash_source")
                     WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
                     WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
-                    WHEN cico_source_balance NOT IN (0,-1) AND dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                    WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
                 END,""),
             IF(target_bank="Movii"
                 ,CASE
