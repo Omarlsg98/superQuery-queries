@@ -1,7 +1,3 @@
-SELECT
-    *
-FROM
-    minka-ach-dw.ach_tin.transfer
-WHERE 
-    source_channel!='"MassTransferCLI"'
-    AND created BETWEEN "2020-04-08" AND "2020-07-09"
+CREATE TABLE minka-ach-dw.temp.prueba (date DATE ,time TIME, amount INT64, Cel_origen STRING);
+INSERT INTO minka-ach-dw.temp.prueba (date ,time , amount , cel_origen)
+VALUES ("20200331","18575794",37500, "$573168331159")
