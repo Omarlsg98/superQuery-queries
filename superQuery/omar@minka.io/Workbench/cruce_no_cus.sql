@@ -2,6 +2,7 @@ WITH only_avvillas AS(
 SELECT
     transfer_id
     ,created
+    ,source_bank
     ,source_wallet
     ,status
     ,t.amount
@@ -13,6 +14,7 @@ WHERE
 SELECT
     transfer_id
     ,created
+    ,source_bank
     ,source_wallet
     ,status
     ,t.amount
