@@ -1,4 +1,3 @@
-DROP TABLE  minka-ach-dw.temp.movii_match;
 CREATE TABLE  minka-ach-dw.temp.movii_match AS
 (WITH 
 movii_types AS 
