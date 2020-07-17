@@ -1,4 +1,3 @@
-DROP TABLE minka-ach-dw.ach_tin_logs.stdout_transfer_ids;
 CREATE TABLE minka-ach-dw.ach_tin_logs.stdout_transfer_ids AS 
 (
 WITH 
