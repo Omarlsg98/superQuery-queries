@@ -1,4 +1,3 @@
-DROP TABLE  ach-tin-prd.sql_dump.transfer;
 CREATE TABLE ach-tin-prd.sql_dump.transfer AS
 (
 SELECT
@@ -36,4 +35,4 @@ FROM
                   FROM
                     transfer
                   ''')
-);
+)
