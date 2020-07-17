@@ -1,9 +1,8 @@
 SELECT
-   match.*
+   match.* EXCEPT(source_bank,target_bank)
    ,transfer_type
-   ,transfer_status
-   ,source_bank	
-   ,target_bank
+   ,match.source_bank	
+   ,match.target_bank
    ,upload_
    ,main_action_
    ,download_target_
@@ -17,7 +16,7 @@ SELECT
    ,source_wallet
    ,target_wallet
 FROM 
-    minka-ach-dw.movii_bridge_log.movii_match_20_07_08 AS match
+    minka-ach-dw.temp.movii_match AS match
 LEFT JOIN 
     minka-ach-dw.ach_tin.transfiya_pivot_specific AS transfer
      ON transfer.transfer_id=match.movii_transfer_id
