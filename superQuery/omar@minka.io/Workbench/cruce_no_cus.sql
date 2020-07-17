@@ -21,6 +21,7 @@ SELECT
     ,source_wallet
     ,status
     ,t.amount
+    ,_amount_
 FROM
     minka-ach-dw.movii_bridge_log.avvillas_manual_change AS p
 LEFT JOIN
