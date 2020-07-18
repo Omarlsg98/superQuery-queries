@@ -30,6 +30,6 @@ LEFT JOIN
     minka-ach-dw.ach_tin.transfiya_pivot_specific AS transfer
         ON transfer.transfer_id=match.movii_transfer_id
 LEFT JOIN 
-    diferencia ON diferencia.transfer_id=match.movii_transfer_id
+    diferencia ON diferencia.transfer_id=UPPER(match.movii_transfer_id)
 WHERE
     match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK")
