@@ -1,8 +1,6 @@
 SELECT
-   match.* EXCEPT(source_bank,target_bank)
+   match.* EXCEPT(source_channel)
    ,transfer_type
-   ,match.source_bank	
-   ,match.target_bank
    ,upload_
    ,main_action_
    ,download_target_
@@ -12,7 +10,7 @@ SELECT
    ,amount
    ,transfer.created AS transfer_created
    ,transfer.updated AS transfer_updated
-   ,source_channel
+   ,transfer.source_channel
    ,source_wallet
    ,target_wallet
 FROM 
