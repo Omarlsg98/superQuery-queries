@@ -1,3 +1,4 @@
+DROP TABLE minka-ach-dw.movii_bridge_log.movii_logs_transform;
 CREATE TABLE minka-ach-dw.movii_bridge_log.movii_logs_transform AS (
 SELECT
     transfer.transfer_id AS transfer_id
@@ -14,6 +15,7 @@ SELECT
     ,transfer.status AS cloud_status
     ,transfer.source_bank
     ,transfer.target_bank
+    ,transfer.source_channel
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
@@ -36,6 +38,7 @@ SELECT
     ,transfer.status AS cloud_status
     ,transfer.source_bank
     ,transfer.target_bank
+    ,transfer.source_channel
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
