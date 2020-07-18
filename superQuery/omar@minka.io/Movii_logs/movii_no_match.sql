@@ -9,7 +9,7 @@ GROUP BY
     transfer_id
 )
 SELECT
-    match.* EXCEPT(source_channel)
+    match.* EXCEPT(source_channel,updated)
     ,transfer_type
     ,upload_
     ,main_action_
