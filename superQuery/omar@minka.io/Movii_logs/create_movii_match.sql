@@ -1,3 +1,4 @@
+DROP TABLE  minka-ach-dw.temp.movii_match;
 CREATE TABLE  minka-ach-dw.temp.movii_match AS
 (WITH  
 movii_types AS 
@@ -9,6 +10,7 @@ movii_types AS
         ,source_bank
         ,target_bank
         ,source_channel
+        ,updated
     FROM
         minka-ach-dw.movii_bridge_log.movii_logs_transform
     WHERE 
@@ -21,6 +23,7 @@ SELECT
     ,MIN(cloud_status) AS status
     ,MIN(source_bank) AS source_bank
     ,MIN(target_bank) AS target_bank
+    ,MAX(updated) AS updated
     , COUNTIF(type="SOURCE_CASHIN") AS ci_source
     , COUNTIF(type="SOURCE_MERCHPAY") AS co_source
     , COUNTIF(type="TARGET_CASHIN") AS ci_target
@@ -74,6 +77,7 @@ SELECT
     ,IFNULL((dw_source+dw_target-up_source),0) AS dwup_total_balance
     ,IFNULL(action_balance,0) AS transfiya_balance
     ,source_channel
+    ,updated
 FROM
     movii_balance AS movii
 LEFT JOIN
@@ -91,60 +95,62 @@ FROM
 )
 SELECT
     *
-    ,CONCAT(
-        IF (transfer_status IN ("COMPLETED")
-            ,CONCAT(
-            IF(source_bank="Movii"
-                ,CASE
-                    WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " source_OK"
-                    WHEN cico_source_balance!=-1 AND dwup_source_balance=-1 THEN CONCAT(" ",-cico_source_balance-1,"_cash_source")
-                    WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
-                    WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
-                    WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel='"MassTransferCLI"' THEN " source_OK"
-                    WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
-                END,""),
-            IF(target_bank="Movii"
-                ,CASE
-                    WHEN cico_target_balance=1 AND dw_target=1 THEN " target_OK"
-                    WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",-cico_target_balance+1,"_cash_target")
-                    WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
-                    WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
-                    WHEN dw_target  NOT IN (0,1) THEN " DANGER"
-                END,"")
-                )
-            ,"")
-        ,IF (transfer_status IN ("REJECTED")
-            ,CONCAT(
-            IF(source_bank="Movii"
-                ,CASE
-                    WHEN cico_source_balance=0 AND dwup_source_balance=0 THEN " source_OK"
-                    WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",-cico_source_balance,"_cash_source")
-                    WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
-                    WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
-                    WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
-                END,""),
-            IF(target_bank="Movii"
-                ,CASE
-                    WHEN cico_target_balance=0 AND dw_target=0 THEN " target_OK"
-                    WHEN cico_target_balance!=0 AND dw_target=0 THEN CONCAT(" ",-cico_target_balance,"_cash_target")
-                    WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED CLOUD REVIEW"
-                    WHEN cico_target_balance!=0 AND dw_target!=0 THEN " DANGER"
-                END,"")
-                )
-            ,"")
-        ,IF (transfer_status IN ("ERROR","ACCEPTED","INITIATED","PENDING")
-            ,CONCAT(
-                IF(dwup_total_balance=0," CHANGE STATUS"," POSIBLE REJECT")
-                ,IF(match_source=0 AND match_target=0
-                    ," both_OK"
-                    ,CONCAT(   
-                        IF(match_source!=0, CONCAT(" ",-cico_source_balance+ dwup_source_balance,"_cash_source ERROR"),"")
-                        ,IF(match_target!=0, CONCAT(" ",-cico_target_balance+ dw_target ,"_cash_target ERROR"),"")
+    ,IF(updated>"2020-07-16T12","Update movii logs"
+        ,CONCAT(
+            IF (transfer_status IN ("COMPLETED")
+                ,CONCAT(
+                IF(source_bank="Movii"
+                    ,CASE
+                        WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " source_OK"
+                        WHEN cico_source_balance!=-1 AND dwup_source_balance=-1 THEN CONCAT(" ",-cico_source_balance-1,"_cash_source")
+                        WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
+                        WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
+                        WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel='"MassTransferCLI"' THEN " source_OK"
+                        WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                    END,""),
+                IF(target_bank="Movii"
+                    ,CASE
+                        WHEN cico_target_balance=1 AND dw_target=1 THEN " target_OK"
+                        WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",-cico_target_balance+1,"_cash_target")
+                        WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
+                        WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
+                        WHEN dw_target  NOT IN (0,1) THEN " DANGER"
+                    END,"")
+                    )
+                ,"")
+            ,IF (transfer_status IN ("REJECTED")
+                ,CONCAT(
+                IF(source_bank="Movii"
+                    ,CASE
+                        WHEN cico_source_balance=0 AND dwup_source_balance=0 THEN " source_OK"
+                        WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",-cico_source_balance,"_cash_source")
+                        WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
+                        WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
+                        WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                    END,""),
+                IF(target_bank="Movii"
+                    ,CASE
+                        WHEN cico_target_balance=0 AND dw_target=0 THEN " target_OK"
+                        WHEN cico_target_balance!=0 AND dw_target=0 THEN CONCAT(" ",-cico_target_balance,"_cash_target")
+                        WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED CLOUD REVIEW"
+                        WHEN cico_target_balance!=0 AND dw_target!=0 THEN " DANGER"
+                    END,"")
+                    )
+                ,"")
+            ,IF (transfer_status IN ("ERROR","ACCEPTED","INITIATED","PENDING")
+                ,CONCAT(
+                    IF(dwup_total_balance=0," CHANGE STATUS"," POSIBLE REJECT")
+                    ,IF(match_source=0 AND match_target=0
+                        ," both_OK"
+                        ,CONCAT(   
+                            IF(match_source!=0, CONCAT(" ",-cico_source_balance+ dwup_source_balance,"_cash_source ERROR"),"")
+                            ,IF(match_target!=0, CONCAT(" ",-cico_target_balance+ dw_target ,"_cash_target ERROR"),"")
+                        )
                     )
                 )
-            )
-        ,"")
-    ,"") AS Analisis
+            ,"")
+        )
+    ) AS Analisis
 FROM
     match_table
 )
