@@ -32,6 +32,5 @@ LEFT JOIN
 LEFT JOIN 
     diferencia ON diferencia.transfer_id=UPPER(match.movii_transfer_id)
 WHERE
-    match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK")
+    match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update movii logs")
     AND created>"2020-01-01"
-    AND updated<"2020-07-16T12"
