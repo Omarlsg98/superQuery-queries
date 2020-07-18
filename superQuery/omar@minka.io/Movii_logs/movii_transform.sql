@@ -16,6 +16,7 @@ SELECT
     ,transfer.source_bank
     ,transfer.target_bank
     ,transfer.source_channel
+    ,transfer.updated
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
@@ -39,6 +40,7 @@ SELECT
     ,transfer.source_bank
     ,transfer.target_bank
     ,transfer.source_channel
+    ,transfer.updated
 FROM 
     minka-ach-dw.movii_bridge_log.movii_logs_20_07_16 AS movii
 LEFT JOIN 
