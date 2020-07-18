@@ -9,6 +9,7 @@ movii_types AS
         ,cloud_status
         ,source_bank
         ,target_bank
+        ,source_channel
     FROM
         minka-ach-dw.movii_bridge_log.movii_logs_transform
     WHERE 
@@ -26,6 +27,7 @@ SELECT
     , COUNTIF(type="TARGET_CASHIN") AS ci_target
     , COUNTIF(type="TARGET_MERCHPAY") AS co_target
     , SUM(IF(type="SOURCE_CASHIN" OR type="TARGET_CASHIN" ,CAST(amount AS FLOAT64),-CAST(amount AS FLOAT64))) AS movii_balance
+    ,MIN(source_channel) AS source_channel
 FROM
     movii_types
 GROUP BY
@@ -72,6 +74,7 @@ SELECT
     ,IFNULL(dw_target,0) AS dw_target
     ,IFNULL((dw_source+dw_target-up_source),0) AS dwup_total_balance
     ,IFNULL(action_balance,0) AS transfiya_balance
+    ,source_channel
 FROM
     movii_balance AS movii
 LEFT JOIN
@@ -97,7 +100,7 @@ SELECT
                     WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " source_OK"
                     WHEN cico_source_balance!=-1 AND dwup_source_balance=-1 THEN CONCAT(" ",-cico_source_balance-1,"_cash_source")
                     WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
-                    WHEN cico_source_balance=0 AND dwup_source_balance=0 THEN " make_UPLOAD"
+                    WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
                     WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
                 END," "),
             IF(target_bank="Movii"
