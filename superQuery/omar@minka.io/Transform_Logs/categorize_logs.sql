@@ -37,8 +37,8 @@ SELECT
         WHEN payload LIKE '%callUrlResponse%' THEN "bank_answer"
         WHEN payload LIKE '%Monitor%' THEN
             CASE
-                WHEN payload LIKE '%[339]%' THEN "monitor_339"
-                WHEN payload LIKE '%[341]%' THEN "monitor_341"
+                WHEN payload LIKE '%[339]:%' THEN "monitor_339"
+                WHEN payload LIKE '%[341]:%' THEN "monitor_341"
                 ELSE"monitor_answer" 
             END
         WHEN payload LIKE '%error-handling%' THEN "error"
