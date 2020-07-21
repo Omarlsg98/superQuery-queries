@@ -1,3 +1,4 @@
+CREATE OR REPLACE TABLE minka-ach-dw.temp.logs_transfor_test AS (
 SELECT
     timestamp
     ,CASE
@@ -60,3 +61,4 @@ SELECT
     ,payload
 FROM
     minka-ach-dw.ach_tin_logs.subset
+)
