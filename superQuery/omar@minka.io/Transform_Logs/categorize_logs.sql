@@ -64,5 +64,5 @@ SELECT
     END as category
     ,payload
 FROM
-    minka-ach-dw.ach_tin_logs.subset
+    minka-ach-dw.ach_tin_logs.logs_transfer_ids
 )
