@@ -10,7 +10,7 @@ SELECT
                 WHEN payload LIKE "%Starting request to%" THEN "call_infobip"
                 ELSE "infobip_unidentified"
             END
-        WHEN payload LIKE '%callUrl%' THEN 
+        WHEN payload LIKE '%callUrl %' THEN 
             CASE
             WHEN payload LIKE '%/debit%' THEN "call_debit"
             WHEN payload LIKE '%/Debit%' THEN "call_debit"
