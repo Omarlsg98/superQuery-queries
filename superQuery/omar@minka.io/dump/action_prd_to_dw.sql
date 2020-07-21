@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS minka-ach-dw.ach_tin.action;
 CREATE TABLE minka-ach-dw.ach_tin.action
 AS (
 SELECT
@@ -30,4 +31,4 @@ SELECT
     , snapshot.target.signer.handle AS action_target_signer
 FROM 
     ach-tin-prd-multireg.ach_tin_prod_datastore.action
-)
+);
