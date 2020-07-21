@@ -26,3 +26,4 @@ SELECT
     MAX(timestamp)
 FROM
  transform
+WHERE transfer_id IS NOT NULL
