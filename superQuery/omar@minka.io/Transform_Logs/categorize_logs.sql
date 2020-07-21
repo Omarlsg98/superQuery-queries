@@ -1,15 +1,13 @@
 SELECT
     timestamp
     ,CASE
-        WHEN payload LIKE "%InfoBip%" THEN 
-            CASE
-                WHEN payload LIKE '%has gotten SMS info with response%' THEN
-                     IF(payload LIKE "%Message sent successfully%"
-                        ,"successful_infobip"
-                        ,"fail_infobip")
-                WHEN payload LIKE "%Starting request to%" THEN "call_infobip"
-                ELSE "infobip_unidentified"
-            END
+        WHEN payload LIKE '%saveInDb%' THEN "db_write"
+        WHEN payload LIKE '%updateAction%' THEN "db_update"
+        WHEN payload LIKE '%database.read.action%' THEN "db_read"
+        WHEN payload LIKE '%error-handling%' THEN "error"
+        WHEN payload LIKE '%cron%' THEN "cron"
+        WHEN payload LIKE '%GET%' THEN  
+            IF(payload LIKE "%transfer%","transfer_request","action_request")
         WHEN payload LIKE '%callUrl %' THEN 
             CASE
             WHEN payload LIKE '%/debit%' THEN "call_debit"
@@ -34,8 +32,6 @@ SELECT
         WHEN payload LIKE '%/continue%' THEN "continue_request"
         WHEN payload LIKE '%Continue Transfer. Action%' THEN "continue_info"
         WHEN payload LIKE '%/sendit%' THEN "sendit_request"
-        WHEN payload LIKE '%GET%' THEN  
-            IF(payload LIKE "%transfer%","transfer_request","action_request")
         WHEN payload LIKE '%callUrlResponse%' THEN "bank_answer"
         WHEN payload LIKE '%Monitor%' THEN
             CASE
@@ -44,13 +40,17 @@ SELECT
                 ELSE"monitor_answer" 
             END
         WHEN payload LIKE '%error-handling%' THEN "error"
-        WHEN payload LIKE '%saveInDb%' THEN "db_write"
-        WHEN payload LIKE '%updateAction%' THEN "db_update"
-        WHEN payload LIKE '%database.read.action%' THEN "db_read"
-        WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
-        WHEN payload LIKE '%cron%' THEN "cron"
         WHEN payload LIKE '%request%' THEN "request_preparation"
+         WHEN payload LIKE "%InfoBip%" THEN 
+            CASE
+                WHEN payload LIKE '%has gotten SMS info with response%' THEN
+                     IF(payload LIKE "%Message sent successfully%"
+                        ,"successful_infobip"
+                        ,"fail_infobip")
+                WHEN payload LIKE "%Starting request to%" THEN "call_infobip"
+                ELSE "infobip_unidentified"
+            END
         ELSE NULL
     END as category
     ,payload
