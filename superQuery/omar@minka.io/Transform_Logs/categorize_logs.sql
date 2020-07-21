@@ -30,7 +30,7 @@ SELECT
             ELSE "call_unidentified"
         END
         WHEN payload LIKE '%/continue%' THEN "continue_request"
-        WHEN payload LIKE '%Continue Transfer. Action%' THEN "continue_info"
+        WHEN payload LIKE '%Continue Transfer.  Action%' THEN "continue_info"
         WHEN payload LIKE '%/sendit%' THEN "sendit_request"
         WHEN payload LIKE '%callUrlResponse%' THEN "bank_answer"
         WHEN payload LIKE '%Monitor%' THEN
