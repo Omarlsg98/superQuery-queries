@@ -46,7 +46,7 @@ SELECT
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%saveInDb%' THEN "db_write"
         WHEN payload LIKE '%updateAction%' THEN "db_update"
-        WHEN payload LIKE '%readAction%' THEN "db_read"
+        WHEN payload LIKE '%database.read.action%' THEN "db_read"
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
         WHEN payload LIKE '%cron%' THEN "cron"
