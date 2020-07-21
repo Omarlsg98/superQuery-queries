@@ -8,7 +8,7 @@ SELECT
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%GET%' THEN  
             IF(payload LIKE "%transfer%","transfer_request","action_request")
-        WHEN payload LIKE '%callUrl %' THEN 
+        WHEN payload LIKE '%callUrl %' OR payload LIKE '%/router/%' THEN 
             CASE
             WHEN payload LIKE '%/debit%' THEN "call_debit"
             WHEN payload LIKE '%/Debit%' THEN "call_debit"
