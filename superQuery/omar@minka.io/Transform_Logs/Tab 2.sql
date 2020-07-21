@@ -2,7 +2,7 @@ SELECT
        "transform ids",MAX(timestamp)
 FROM 
     minka-ach-dw.ach_tin_logs.stdout_transfer_ids
-UNION
+UNION ALL
 SELECT 
        "stdout",MAX(timestamp)
 FROM 
