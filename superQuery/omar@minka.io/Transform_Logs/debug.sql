@@ -26,3 +26,5 @@ WHERE
 'yy0QFflYU5wj0qGc9',
 '0eK8tJyR6fFl9pR4Q',
 '2M2PvgHaRgPzS7DYz')
+ORDER BY 
+    transfer_id, timestamp ASC
