@@ -1,5 +1,9 @@
 SELECT 
-    * 
+    labels.bankName
+    ,labels.routerUpload
+    ,labels.routerStatus
+    ,labels.routerDownload
+    ,labels.routerAction
 FROM 
     minka-ach-dw.ach_tin.wallet
 WHERE
