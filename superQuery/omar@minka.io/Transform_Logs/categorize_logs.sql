@@ -49,6 +49,8 @@ SELECT
         WHEN payload LIKE '%readAction%' THEN "db_read"
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
+        WHEN payload LIKE '%cron%' THEN "cron"
+        WHEN payload LIKE '%request%' THEN "request_preparation"
         ELSE NULL
     END as category
     ,payload
