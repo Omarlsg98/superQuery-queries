@@ -37,6 +37,7 @@ SELECT
         WHEN payload LIKE '%/sendit%' THEN "sendit_request"
         WHEN payload LIKE '%/accept%' THEN "accept_request"
         WHEN transfer_id IS NOT NULL AND action_id IS NOT NULL AND payload LIKE "%ACCEPTED%" THEN "accept_log"
+        WHEN payload LIKE "%Accept Transfer.%" THEN "accept_log"
         WHEN payload LIKE '%Monitor%' THEN
             CASE
                 WHEN payload LIKE '%[339]:%' THEN "monitor_339"
