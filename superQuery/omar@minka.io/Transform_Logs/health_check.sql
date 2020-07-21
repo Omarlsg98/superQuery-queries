@@ -4,6 +4,6 @@ FROM
     minka-ach-dw.ach_tin_logs.logs_transfer_ids
 UNION ALL
 SELECT 
-       "stdout",MAX(timestamp)
+       "winston_log",MAX(timestamp)
 FROM 
     ach-tin-prd.achtin_logs.winston_log
