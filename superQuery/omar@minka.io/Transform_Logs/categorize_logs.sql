@@ -1,11 +1,11 @@
 SELECT
     timestamp
     ,CASE
+        WHEN payload LIKE '%cron%' THEN "cron"
         WHEN payload LIKE '%saveInDb%' THEN "db_write"
         WHEN payload LIKE '%updateAction%' THEN "db_update"
         WHEN payload LIKE '%database.read.action%' THEN "db_read"
         WHEN payload LIKE '%error-handling%' THEN "error"
-        WHEN payload LIKE '%cron%' THEN "cron"
         WHEN payload LIKE '%GET%' THEN  
             IF(payload LIKE "%transfer%","transfer_request","action_request")
         WHEN payload LIKE '%callUrl %' THEN 
@@ -41,8 +41,7 @@ SELECT
             END
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
-        WHEN payload LIKE '%request%' THEN "request_preparation"
-         WHEN payload LIKE "%InfoBip%" THEN 
+        WHEN payload LIKE "%InfoBip%" THEN 
             CASE
                 WHEN payload LIKE '%has gotten SMS info with response%' THEN
                      IF(payload LIKE "%Message sent successfully%"
@@ -51,6 +50,7 @@ SELECT
                 WHEN payload LIKE "%Starting request to%" THEN "call_infobip"
                 ELSE "infobip_unidentified"
             END
+        WHEN payload LIKE '%request%' THEN "request_preparation"
         ELSE NULL
     END as category
     ,payload
