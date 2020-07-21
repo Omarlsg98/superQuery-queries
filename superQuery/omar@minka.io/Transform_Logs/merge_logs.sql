@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE minka-ach-dw.ach_tin_logs.both_logs AS (
+CREATE OR REPLACE TABLE minka-ach-dw.ach_tin_logs.both_logs_deduplicated AS (
 /*
 SELECT 
    timestamp
