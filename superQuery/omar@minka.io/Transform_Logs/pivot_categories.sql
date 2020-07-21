@@ -1,5 +1,5 @@
 CALL fhoffa.x.pivot(
-   'minka-ach-dw.temp.logs_transfor_test' # source table
+   'minka-ach-dw.temp.logs_transform_test' # source table
   , 'minka-ach-dw.temp.logs_pivot_test' # destination table
   , ['transfer_id'] # row_ids
   , 'category' # pivot_col_name
