@@ -48,6 +48,7 @@ SELECT
         WHEN payload LIKE '%updateAction%' THEN "db_update"
         WHEN payload LIKE '%readAction%' THEN "db_read"
         WHEN payload LIKE '%error-handling%' THEN "error"
+        WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
         ELSE NULL
     END as category
     ,payload
