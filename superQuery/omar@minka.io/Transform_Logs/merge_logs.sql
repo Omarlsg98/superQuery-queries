@@ -14,12 +14,12 @@ FROM
 )*/
     SELECT 
         k.timestamp
-        ,k.textPayLoad AS text_pay_load
+        ,k.text_pay_load AS payload
     FROM (
       SELECT ARRAY_AGG(row LIMIT 1)[OFFSET(0)] k 
       FROM 
         `minka-ach-dw.ach_tin_logs.both_logs` row
       GROUP BY 
-        timestamp,textPayLoad
+        TIMESTAMP_TRUNC(timestamp,SECOND),text_pay_Load
     )
 )
