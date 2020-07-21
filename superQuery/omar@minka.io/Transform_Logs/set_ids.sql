@@ -1,4 +1,4 @@
-CREATE TABLE minka-ach-dw.ach_tin_logs.stdout_transfer_ids AS 
+CREATE TABLE minka-ach-dw.ach_tin_logs.logs_transfer_ids AS 
 (
 WITH 
 # REGEXP to extract the action_id and the transfer_id from stdout logs
@@ -9,7 +9,7 @@ logs AS
         ,REGEXP_EXTRACT(textPayLoad,'([0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})') AS action_id
        ,textPayLoad
     FROM 
-        ach-tin-prd.achtin_logs.stdout
+        ach-tin-prd.achtin_logs.winston_log
     WHERE
         textPayLoad NOT LIKE "%sendActionWithIOU%"
     )
