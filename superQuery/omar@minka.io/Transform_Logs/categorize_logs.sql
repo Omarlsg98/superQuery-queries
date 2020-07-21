@@ -44,6 +44,7 @@ SELECT
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
         WHEN payload LIKE '%Continue Transfer %'  THEN "transfer_status"
+        WHEN payload LIKE '%transfer update %'  THEN "transfer_status"
         WHEN payload LIKE "%Info%" THEN 
             CASE
                 WHEN payload LIKE '%has gotten SMS info with response%' THEN
