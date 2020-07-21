@@ -29,9 +29,11 @@ SELECT
             WHEN payload LIKE '%/GenerarEstado%' THEN "call_status"
             ELSE "call_unidentified"
         END
+        WHEN payload LIKE '%callUrlError%' THEN "bank_answer_error"
         WHEN payload LIKE '%/continue%' THEN "continue_request"
         WHEN payload LIKE '%Continue Transfer.  Action%' THEN "continue_info"
         WHEN payload LIKE '%/sendit%' THEN "sendit_request"
+        WHEN payload LIKE '%/accept%' THEN "accept_request"
         WHEN payload LIKE '%callUrlResponse%' THEN "bank_answer"
         WHEN payload LIKE '%Monitor%' THEN
             CASE
@@ -41,7 +43,8 @@ SELECT
             END
         WHEN payload LIKE '%error-handling%' THEN "error"
         WHEN payload LIKE '%creat%' AND payload LIKE '%transfer%' THEN "transfer_status"
-        WHEN payload LIKE "%InfoBip%" THEN 
+        WHEN payload LIKE '%Continue Transfer %'  THEN "transfer_status"
+        WHEN payload LIKE "%Info%" THEN 
             CASE
                 WHEN payload LIKE '%has gotten SMS info with response%' THEN
                      IF(payload LIKE "%Message sent successfully%"
