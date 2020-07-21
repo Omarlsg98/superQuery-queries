@@ -11,7 +11,18 @@ logs AS
     WHERE
         textPayLoad NOT LIKE "%sendActionWithIOU%"
     )
+,transform AS
+(SELECT
+    timestamp
+    ,IF(action.transfer_id IS NULL, logs.transfer_id, action.transfer_id) AS transfer_id
+    ,logs.action_id
+    ,textPayLoad
+FROM 
+    logs
+LEFT JOIN 
+    minka-ach-dw.ach_tin.action
+        ON action.action_id=logs.action_id)
 SELECT
     MAX(timestamp)
 FROM
- logs
+ transform
