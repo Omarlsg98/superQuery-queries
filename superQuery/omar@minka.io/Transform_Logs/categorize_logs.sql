@@ -1,6 +1,8 @@
-CREATE OR REPLACE TABLE minka-ach-dw.temp.logs_transfor_test AS (
+CREATE OR REPLACE TABLE minka-ach-dw.temp.logs_transform_test AS (
 SELECT
     timestamp
+    ,transfer_id
+    ,action_id
     ,CASE
         WHEN payload LIKE '%cron%' THEN "cron"
         WHEN payload LIKE '%saveInDb%' THEN "db_write"
