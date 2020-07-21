@@ -1,7 +1,6 @@
 CREATE OR REPLACE TABLE minka-ach-dw.ach_tin_logs.subset AS
 SELECT
-    timestamp
-    ,payload
+    *
 FROM
     minka-ach-dw.ach_tin_logs.logs_transfer_ids
 WHERE
