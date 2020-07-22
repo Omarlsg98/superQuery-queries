@@ -14,7 +14,7 @@ logs AS
         payload NOT LIKE "%sendActionWithIOU%"
     )
 #Assign transfer_id according to action_id
-,transform AS
+,with_ids AS
 (SELECT
     timestamp
     ,IF(action.transfer_id IS NULL, logs.transfer_id, action.transfer_id) AS transfer_id
@@ -27,5 +27,5 @@ LEFT JOIN
         ON action.action_id=logs.action_id)
 SELECT *
 FROM
-transform
+with_ids
 WHERE transfer_id IS NOT NULL)
