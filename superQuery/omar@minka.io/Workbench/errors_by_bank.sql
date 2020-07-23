@@ -27,4 +27,6 @@ FROM
 WHERE
     created BETWEEN "2020-04-08" AND "2020-07-21"
     AND source_channel!='"MassTransferCLI"'
+ORDER BY 
+    transfer_id DESC
 LIMIT 10000
