@@ -62,7 +62,7 @@ GROUP BY
 #bank_mapping -> normalize bank_names 
 SELECT
      CASE
-        WHEN bank="Banco Av Villas" OR bank="$bancoavvillas"THEN "Av Villas"
+        WHEN bank="Banco AV Villas" OR bank="$bancoavvillas"THEN "Av Villas"
     	WHEN bank="Banco Caja Social" OR bank="$bancocajasocial" THEN "Caja Social"
     	WHEN bank="DAVIPLATA" OR bank="$daviplataprd" THEN "Daviplata"
     	WHEN bank="DAVIVIENDA" OR bank="$daviviendaprd" THEN "Davivienda"
