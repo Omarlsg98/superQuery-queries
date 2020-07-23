@@ -50,7 +50,7 @@ INNER JOIN
     main_action_analysis ON main_action_analysis.transfer_id=action.transfer_id
 WHERE
     action_source_bankrouter IS NOT NULL 
-    AND (action_type="REJECT" AND action_status="ERROR")
+    AND (action_type!="REJECT" OR (action_type="REJECT" AND action_status="ERROR"))
     AND error_code NOT IN (0,123,301,302,331)
     AND error_code IS NOT NULL
 GROUP BY
