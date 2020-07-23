@@ -2,9 +2,15 @@ WITH
 diferencia AS 
 (
 SELECT 
-    transfer_id
+    IFNULL(m14.transfer_id,m5.transfer_id) as transfer_id
+    ,IF(MAX(m14.transfer_id) IS NOT NULL AND MAX(m5.transfer_id) IS NOT NULL 
+        ,"14-07 | 05-07"
+        ,IF(MAX(m14.transfer_id) IS NULL,"05-07","14-07") )AS reported_date
 FROM 
-    minka-ach-dw.movii_bridge_log.movii_diferencia_05_07_2020
+    minka-ach-dw.movii_bridge_log.movii_diferencia_05_07_2020 AS m5
+FULL JOIN 
+     minka-ach-dw.movii_bridge_log.movii_diferencia_14_07_2020 AS m14 
+        ON m14.transfer_id = m5.transfer_id 
 GROUP BY
     transfer_id
 )
@@ -23,14 +29,14 @@ SELECT
     ,transfer.source_channel
     ,source_wallet
     ,target_wallet
-    ,(diferencia.transfer_id IS NOT NULL) AS in_diferencia
+    ,IFNULL(diferencia.reported_date,"false") AS in_diferencia
 FROM
     minka-ach-dw.temp.movii_match AS match
 LEFT JOIN
     minka-ach-dw.ach_tin.transfiya_pivot_specific AS transfer
         ON transfer.transfer_id=match.movii_transfer_id
 LEFT JOIN 
-    diferencia ON diferencia.transfer_id=UPPER(match.movii_transfer_id)
+   diferencia ON diferencia.transfer_id=UPPER(match.movii_transfer_id)
 WHERE
-    match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update movii logs")
+     match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update movii logs")
     AND created>"2020-01-01"
