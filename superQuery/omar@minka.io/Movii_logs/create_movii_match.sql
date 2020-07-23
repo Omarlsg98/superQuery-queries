@@ -1,5 +1,4 @@
-DROP TABLE  minka-ach-dw.temp.movii_match;
-CREATE TABLE  minka-ach-dw.temp.movii_match AS
+CREATE OR REPLACE TABLE  minka-ach-dw.temp.movii_match AS
 (WITH    
 movii_types AS 
 (    SELECT 
@@ -106,7 +105,7 @@ SELECT
                         WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel='"MassTransferCLI"' THEN " source_OK"
-                        WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                        ELSE " DANGER"
                     END,""),
                 IF(target_bank="Movii"
                     ,CASE
@@ -114,7 +113,7 @@ SELECT
                         WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
                         WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
-                        WHEN dw_target  NOT IN (0,1) THEN " DANGER"
+                        ELSE " DANGER"
                     END,"")
                     )
                 ,"")
@@ -126,14 +125,14 @@ SELECT
                         WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",ABS(match_source),IF(match_source<0,"_cashin","_cashout"),"_source")
                         WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
                         WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
-                        WHEN dwup_source_balance  NOT IN (0,-1) THEN " DANGER"
+                        ELSE " DANGER"
                     END,""),
                 IF(target_bank="Movii"
                     ,CASE
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " target_OK"
                         WHEN cico_target_balance!=0 AND dw_target=0 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
                         WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED CLOUD REVIEW"
-                        WHEN cico_target_balance!=0 AND dw_target!=0 THEN " DANGER"
+                        ELSE " DANGER"
                     END,"")
                     )
                 ,"")
