@@ -11,6 +11,7 @@ FULL JOIN
     ach-tin-prd-multireg.datastore_to_bigquery.action AS julian
         ON omar.action_id=julian.action_id
 WHERE 
-    omar.action_id IS NULL
-    OR julian.action_id IS NULL
+    (omar.action_id IS NULL
+    OR julian.action_id IS NULL)
+    AND julian.labels.created < "2020-07-23T09:06:09"
 LIMIT 100
