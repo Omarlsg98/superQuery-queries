@@ -1,1 +1,1 @@
-DROP minka-ach-dw.tests.adasdas IF EXISTS 
+DROP TABLE IF EXISTS minka-ach-dw.tests.adasdas
