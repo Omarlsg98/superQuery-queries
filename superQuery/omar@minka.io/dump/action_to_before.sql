@@ -1,4 +1,4 @@
-CREATE TABLE minka-ach-dw.ach_tin_before.action_20200723
+CREATE TABLE minka-ach-dw.ach_tin_before.action_20200724
 AS (
 SELECT
     action_id
