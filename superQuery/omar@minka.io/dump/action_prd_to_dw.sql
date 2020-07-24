@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE minka-ach-dw.ach_tin.action_dataflow
+CREATE OR REPLACE TABLE minka-ach-dw.ach_tin.action
 AS (
 SELECT
     action_id
@@ -14,8 +14,8 @@ SELECT
     , labels.created AS action_created
     , labels.updated AS action_udpated
     , labels.hash AS action_hash
-    , error.code AS error_code
-    , error.message AS error_message
+    , error.code.integer AS error_code
+    , error.message.string AS error_message
     , snapshot.source.signer.labels.bankName AS action_source_bankname
     , snapshot.source.signer.labels.bankAccountType AS action_source_bankaccounttype
     , snapshot.source.signer.labels.bankAccountNumber AS action_source_bankaccountnum
@@ -29,7 +29,5 @@ SELECT
     , snapshot.target.wallet AS action_target_wallet
     , snapshot.target.signer.handle AS action_target_signer
 FROM 
-    ach-tin-prd-multireg.datastore_to_bigquery.action
-WHERE 
-    labels.created<"2020-07-23T09:06:09"
+    ach-tin-prd-multireg.ach_tin_prod_datastore.action
 )
