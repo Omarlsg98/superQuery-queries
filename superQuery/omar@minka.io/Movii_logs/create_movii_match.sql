@@ -1,17 +1,19 @@
 CREATE OR REPLACE TABLE  minka-ach-dw.temp.movii_match AS
 (WITH    
-movii_types AS 
+movii_types AS  
 (    SELECT 
         CONCAT(tx_place,"_",service_type) AS type
-        ,transfer_id
-        ,amount
-        ,cloud_status
-        ,source_bank
-        ,target_bank
-        ,source_channel
-        ,updated
+        ,movii.transfer_id
+        ,movii.amount
+        ,transfer.status AS cloud_status
+        ,transfer.source_bank
+        ,transfer.target_bank
+        ,transfer.source_channel
+        ,transfer.updated
     FROM
-        minka-ach-dw.movii_bridge_log.movii_logs_transform
+        minka-ach-dw.movii_bridge_log.movii_logs_transform AS movii
+    LEFT JOIN 
+         minka-ach-dw.ach_tin.transfer ON transfer.transfer_id=movii.transfer_id 
     WHERE 
         transfer_status="TS"
 )
