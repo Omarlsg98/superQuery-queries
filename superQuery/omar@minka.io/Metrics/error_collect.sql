@@ -4,7 +4,7 @@ INSERT INTO
     number,
     measured_on)
 SELECT
-    "apr-jul" ,COUNT(transfer_id),  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP)
+    "apr-jul" AS category ,COUNT(transfer_id) AS number,  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP) AS measured_on
 FROM
     minka-ach-dw.ach_tin.transfer
 WHERE
@@ -12,7 +12,7 @@ WHERE
     AND created BETWEEN "2020-04-08" AND "2020-07-08"
 UNION ALL
 SELECT
-    "sep-apr" ,COUNT(transfer_id),  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP)
+    "sep-apr" AS category ,COUNT(transfer_id) AS number,  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP) AS measured_on
 FROM
     minka-ach-dw.ach_tin.transfer
 WHERE
@@ -20,7 +20,7 @@ WHERE
     AND created BETWEEN "2019-09-13" AND "2020-04-08"
 UNION ALL
 SELECT
-    "jul-now" ,COUNT(transfer_id),  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP)
+    "jul-now" AS category ,COUNT(transfer_id) AS number,  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP) AS measured_on
 FROM
     minka-ach-dw.ach_tin.transfer
 WHERE
@@ -28,7 +28,7 @@ WHERE
     AND created > "2020-07-08"
 UNION ALL
 SELECT
-    "all" ,COUNT(transfer_id),  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP)
+    "all" AS category  ,COUNT(transfer_id) AS number,  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP) AS measured_on
 FROM
     minka-ach-dw.ach_tin.transfer
 WHERE
