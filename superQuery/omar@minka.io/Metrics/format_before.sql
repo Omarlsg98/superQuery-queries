@@ -1,5 +1,5 @@
-CREATE TABLE minka-ach-dw.ach_tin_before.action_20200703 AS 
+CREATE TABLE minka-ach-dw.ach_tin_before.action_20200702 AS 
 SELECT
     *
 FROM
-    minka-ach-dw.ach_tin_before.action_20200703_2000
+    minka-ach-dw.ach_tin_before.action_20200702_1159
