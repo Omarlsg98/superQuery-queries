@@ -1,8 +1,8 @@
-/*INSERT INTO
+INSERT INTO
     `minka-ach-dw.metrics.errors`(
     category,
     number,
-    measured_on)*/
+    measured_on)
 SELECT
     "apr-jul" ,COUNT(transfer_id),  CAST(CURRENT_DATETIME("America/Bogota") AS TIMESTAMP)
 FROM
