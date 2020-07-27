@@ -33,3 +33,4 @@ FROM
     minka-ach-dw.ach_tin.transfer
 WHERE
     status NOT IN ("REJECTED", "COMPLETED")
+    AND created>"2019-09-13"
