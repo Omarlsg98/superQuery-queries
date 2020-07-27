@@ -1,1 +1,4 @@
-DROP TABLE IF EXISTS minka-ach-dw.tests.adasdas
+CREATE OR REPLACE TABLE minka-ach-dw.tests.test AS 
+(
+SELECT CURRENT_TIME("America/Bogota")
+)
