@@ -1,3 +1,4 @@
+/*ACTION NEW DOWNLOADS*/
 CREATE OR REPLACE TABLE minka-ach-dw.temp.action_new_downloads as (
   select
     *
