@@ -107,7 +107,7 @@ SELECT
                         WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel='"MassTransferCLI"' THEN " source_OK"
-                        ELSE " DANGER"
+                        ELSE " DANGER_source_completed"
                     END,""),
                 IF(target_bank="Movii"
                     ,CASE
@@ -115,7 +115,7 @@ SELECT
                         WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
                         WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
-                        ELSE " DANGER"
+                        ELSE " DANGER_target_completed"
                     END,"")
                     )
                 ,"")
@@ -127,14 +127,14 @@ SELECT
                         WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",ABS(match_source),IF(match_source<0,"_cashin","_cashout"),"_source")
                         WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
                         WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
-                        ELSE " DANGER"
+                        ELSE " DANGER_source_rejected"
                     END,""),
                 IF(target_bank="Movii"
                     ,CASE
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " target_OK"
                         WHEN cico_target_balance!=0 AND dw_target=0 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
                         WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED CLOUD REVIEW"
-                        ELSE " DANGER"
+                        ELSE " DANGER_target_rejected"
                     END,"")
                     )
                 ,"")
@@ -143,16 +143,22 @@ SELECT
                     IF(match_source=0 AND match_target=0
                         ," both_OK"
                         ,CONCAT(   
-                            CASE
-                                WHEN match_source<0 THEN CONCAT(" ",-match_source,"_cashin_source")
-                                WHEN match_source=0 THEN " source_OK"
-                                WHEN match_source>0 THEN " source_not_move"
-                            END
-                            ,CASE
-                                WHEN match_target<0 THEN CONCAT(" ",-match_target,"_cashin_target")
-                                WHEN match_target=0 THEN " target_OK"
-                                WHEN match_target>0 THEN " target_not_move"
-                            END
+                            IF(source_bank="Movii"
+                                ,CASE
+                                    WHEN match_source<0 THEN CONCAT(" ",-match_source,"_cashin_source")
+                                    WHEN match_source=0 THEN " source_OK"
+                                    WHEN match_source>0 THEN " source_not_move"
+                                END
+                                ,IF(match_source!=0," DANGER_isnot_source_bank","")
+                            )
+                            ,IF(target_bank="Movii"
+                                ,CASE
+                                    WHEN match_target<0 THEN CONCAT(" ",-match_target,"_cashin_target")
+                                    WHEN match_target=0 THEN " target_OK"
+                                    WHEN match_target>0 THEN " target_not_move"
+                                END
+                                ,IF(match_target!=0," DANGER_isnot_target_bank","")
+                            )
                         )
                     )
                     ," CLOUD REVIEW"
