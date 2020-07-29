@@ -38,6 +38,6 @@ LEFT JOIN
 LEFT JOIN 
    diferencia ON UPPER(diferencia.transfer_id)=UPPER(match.transfer_id)
 WHERE
-    (match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update movii logs")
+    (match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update_movii_logs")
     AND created>"2020-01-01")
     OR diferencia.transfer_id IS NOT NULL /*Show all tx reported*/
