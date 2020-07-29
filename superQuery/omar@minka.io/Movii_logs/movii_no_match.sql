@@ -34,10 +34,10 @@ FROM
     minka-ach-dw.temp.movii_match AS match
 LEFT JOIN
     minka-ach-dw.ach_tin.transfiya_pivot_specific AS transfer
-        ON transfer.transfer_id=match.movii_transfer_id
+        ON transfer.transfer_id=match.transfer_id
 LEFT JOIN 
-   diferencia ON UPPER(diferencia.transfer_id)=UPPER(match.movii_transfer_id)
+   diferencia ON UPPER(diferencia.transfer_id)=UPPER(match.transfer_id)
 WHERE
     (match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update movii logs")
     AND created>"2020-01-01")
-    OR diferencia.transfer_id IS NOT NULL
+    OR diferencia.transfer_id IS NOT NULL /*Show all tx reported*/
