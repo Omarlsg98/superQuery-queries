@@ -4,12 +4,18 @@ SELECT
 FROM
     minka-ach-dw.ach_tin.transfiya_pivot_specific
 WHERE 
-        (
-        transfer_status NOT IN ("PENDING","REJECTED","COMPLETED")
-           AND created>"2020-07-08"
-        )
-    OR 
-        (transfer_status IN ("PENDING")
-            AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 30 HOUR))
+    (
+            (
+            transfer_status NOT IN ("PENDING","REJECTED","COMPLETED")
+               AND created>"2020-07-08"
+            )
+        OR 
+            (transfer_status IN ("PENDING")
+                AND CAST(SUBSTR(created,1,19) AS DATETIME) < DATETIME_SUB(CURRENT_DATETIME("America/Bogota"),INTERVAL 30 HOUR))
+    )
+    AND 
+        transfer_id NOT IN (
+            SELECT transfer_id 
+            FROM minka-ach-dw.ach_tin.manual_reverse)
 ORDER BY
     scenery_key DESC
