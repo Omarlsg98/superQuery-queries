@@ -48,8 +48,11 @@ GROUP BY
          minka-ach-dw.ach_tin.transfer ON transfer.transfer_id=movii.transfer_id 
     WHERE
         movii.transfer_id IS NOT NULL
-        OR transfer.source_bank="Movii" 
-        OR transfer.target_bank="Movii"
+        OR 
+        (
+            (transfer.source_bank="Movii" OR transfer.target_bank="Movii")
+            AND created>"2020-01-01" #minimum date available of movii_logs
+        )
 )
 #summarize the action movements done by movii by transfer_id, dividing movements to source of momvents to target
 , action_balance AS 
