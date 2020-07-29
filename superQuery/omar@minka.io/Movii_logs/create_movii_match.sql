@@ -1,41 +1,57 @@
 CREATE OR REPLACE TABLE  minka-ach-dw.temp.movii_match AS
-(WITH    
+(WITH
+#create new mahindra types
+#Concat the place of the movement and the type of the movement
 movii_types AS  
 (    SELECT 
         CONCAT(tx_place,"_",service_type) AS type
         ,movii.transfer_id
         ,movii.amount
-        ,transfer.status AS cloud_status
-        ,transfer.source_bank
-        ,transfer.target_bank
-        ,transfer.source_channel
-        ,transfer.updated
     FROM
         minka-ach-dw.movii_bridge_log.movii_logs_transform AS movii
-    LEFT JOIN 
-         minka-ach-dw.ach_tin.transfer ON transfer.transfer_id=movii.transfer_id 
     WHERE 
         transfer_status="TS"
 )
+#summarize the mahindra movements by transfer_id, dividing movements to source of momvents to target
 ,movii_balance AS 
 (
 SELECT 
     transfer_id
-    ,MIN(cloud_status) AS status
-    ,MIN(source_bank) AS source_bank
-    ,MIN(target_bank) AS target_bank
-    ,MAX(updated) AS updated
     , COUNTIF(type="SOURCE_CASHIN") AS ci_source
     , COUNTIF(type="SOURCE_MERCHPAY") AS co_source
     , COUNTIF(type="TARGET_CASHIN") AS ci_target
     , COUNTIF(type="TARGET_MERCHPAY") AS co_target
     , SUM(IF(type="SOURCE_CASHIN" OR type="TARGET_CASHIN" ,CAST(amount AS FLOAT64),-CAST(amount AS FLOAT64))) AS movii_balance
-    ,MIN(source_channel) AS source_channel
 FROM
     movii_types
 GROUP BY
     transfer_id
 )
+#add the transfers that are from movii but dont have any mahindra movement (not in movii_logs)
+,all_movii_balance AS  
+(    SELECT 
+        IFNULL(movii.transfer_id,transfer.transfer_id) AS transfer_id
+        ,movii.transfer_id AS movii_transfer_id
+        ,IFNULL(movii.ci_source,0) AS ci_source
+        ,IFNULL(movii.co_source,0) AS co_source
+        ,IFNULL(movii.ci_target,0) AS ci_target
+        ,IFNULL(movii.co_target,0) AS co_target
+        ,IFNULL(movii_balance,0) AS movii_balance
+        ,transfer.status
+        ,transfer.source_bank
+        ,transfer.target_bank
+        ,transfer.source_channel
+        ,transfer.updated
+    FROM
+       movii_balance AS movii
+    FULL JOIN 
+         minka-ach-dw.ach_tin.transfer ON transfer.transfer_id=movii.transfer_id 
+    WHERE
+        movii.transfer_id IS NOT NULL
+        OR transfer.source_bank="Movii" 
+        OR transfer.target_bank="Movii"
+)
+#summarize the action movements done by movii by transfer_id, dividing movements to source of momvents to target
 , action_balance AS 
 (
 SELECT 
@@ -55,10 +71,12 @@ WHERE
 GROUP BY
     transfer_id
 )
+#join the movements in the cloud with the movements in mahindra
 ,movii_actions AS 
 (
 SELECT 
-    movii.transfer_id AS movii_transfer_id
+    movii.transfer_id AS transfer_id
+    ,movii_transfer_id
     ,action.transfer_id AS action_transfer_id
     ,movii.status AS transfer_status
     ,source_bank
@@ -80,11 +98,12 @@ SELECT
     ,source_channel
     ,updated
 FROM
-    movii_balance AS movii
+    all_movii_balance AS movii
 LEFT JOIN
     action_balance AS action
         ON action.transfer_id= movii.transfer_id
 )
+#calculate the overall balance (movii/cloud) by place (source/target)
 , match_table AS (
 SELECT
   * 
@@ -94,9 +113,12 @@ SELECT
 FROM
     movii_actions
 )
+#Analize the results
+#put a classification (an action to do) according to the balance, status, and place of the bank
+#have a failsafe for outdated movii_logs
 SELECT
     *
-    ,IF(updated>"2020-07-16T12","Update movii logs"
+    ,IF(updated>"2020-07-16T12","Update_movii_logs"
         ,CONCAT(
             IF (transfer_status IN ("COMPLETED")
                 ,CONCAT(
@@ -104,7 +126,7 @@ SELECT
                     ,CASE
                         WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " source_OK"
                         WHEN cico_source_balance!=-1 AND dwup_source_balance=-1 THEN CONCAT(" ",ABS(match_source),IF(match_source<0,"_cashin","_cashout"),"_source")
-                        WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign UPLOAD no Mahindra"
+                        WHEN cico_source_balance=-1 AND dwup_source_balance=0 THEN " Sign_UPLOAD_no_Mahindra"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel!='"MassTransferCLI"' THEN " make_UPLOAD"
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 AND source_channel='"MassTransferCLI"' THEN " source_OK"
                         ELSE " DANGER_source_completed"
@@ -113,7 +135,7 @@ SELECT
                     ,CASE
                         WHEN cico_target_balance=1 AND dw_target=1 THEN " target_OK"
                         WHEN cico_target_balance!=1 AND dw_target=1 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
-                        WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign DOWNLOAD_TARGET no Mahindra"
+                        WHEN cico_target_balance=1 AND dw_target=0 THEN " Sign_DOWNLOAD_TARGET_no_Mahindra"
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " make_DOWNLOAD_TARGET"
                         ELSE " DANGER_target_completed"
                     END,"")
@@ -125,7 +147,7 @@ SELECT
                     ,CASE
                         WHEN cico_source_balance=0 AND dwup_source_balance=0 THEN " source_OK"
                         WHEN cico_source_balance!=0 AND dwup_source_balance=0 THEN CONCAT(" ",ABS(match_source),IF(match_source<0,"_cashin","_cashout"),"_source")
-                        WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign DOWNLOAD_SOURCE no Mahindra"
+                        WHEN cico_source_balance=0 AND dwup_source_balance=-1 THEN " Sign_DOWNLOAD_SOURCE_no_Mahindra"
                         WHEN cico_source_balance=-1 AND dwup_source_balance=-1 THEN " make_DOWNLOAD_SOURCE"
                         ELSE " DANGER_source_rejected"
                     END,""),
@@ -133,7 +155,7 @@ SELECT
                     ,CASE
                         WHEN cico_target_balance=0 AND dw_target=0 THEN " target_OK"
                         WHEN cico_target_balance!=0 AND dw_target=0 THEN CONCAT(" ",ABS(match_target),IF(match_target<0,"_cashin","_cashout"),"_target")
-                        WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED CLOUD REVIEW"
+                        WHEN cico_target_balance=0 AND dw_target!=0 THEN " REJECTED_CLOUD_REVIEW"
                         ELSE " DANGER_target_rejected"
                     END,"")
                     )
@@ -149,7 +171,7 @@ SELECT
                                     WHEN match_source=0 THEN " source_OK"
                                     WHEN match_source>0 THEN " source_not_move"
                                 END
-                                ,IF(match_source!=0," DANGER_isnot_source_bank","")
+                                ,IF(match_source!=0," DANGER_isnot_sourcebank","")
                             )
                             ,IF(target_bank="Movii"
                                 ,CASE
@@ -157,11 +179,11 @@ SELECT
                                     WHEN match_target=0 THEN " target_OK"
                                     WHEN match_target>0 THEN " target_not_move"
                                 END
-                                ,IF(match_target!=0," DANGER_isnot_target_bank","")
+                                ,IF(match_target!=0," DANGER_isnot_targetbank","")
                             )
                         )
                     )
-                    ," CLOUD REVIEW"
+                    ," CLOUD_REVIEW"
                 )
             ,"")
         )
