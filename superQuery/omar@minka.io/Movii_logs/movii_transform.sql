@@ -1,4 +1,4 @@
-#CREATE OR REPLACE TABLE minka-ach-dw.movii_bridge_log.movii_logs_transform AS (
+CREATE OR REPLACE TABLE minka-ach-dw.movii_bridge_log.movii_logs_transform AS (
 WITH both_movii AS 
 (
     SELECT
@@ -35,5 +35,4 @@ LEFT JOIN
     minka-ach-dw.ach_tin.transfer ON LOWER(transfer.transfer_id)=LOWER(movii.cell_id)
 WHERE
     transfer.transfer_id IS NOT NULL
-LIMIT 100
-#)
+)
