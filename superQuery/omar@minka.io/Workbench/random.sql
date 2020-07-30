@@ -6,7 +6,7 @@ SELECT
 FROM 
     minka-ach-dw.ach_tin.signer
 WHERE
-    mobile IN (
+    labels.mobile IN (
     "573176357560",
 "573205912747",
 "573118279224",
