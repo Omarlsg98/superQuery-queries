@@ -1,7 +1,7 @@
 SELECT
    * 
 FROM
-   EXTERNAL_QUERY("us-east4.ach_tin_prd",
+   EXTERNAL_QUERY("projects/ach-tin-prd/locations/us-east4/connections/ach_tin_prd",
                   '''
                   SELECT
                     transferId AS transfer_id
