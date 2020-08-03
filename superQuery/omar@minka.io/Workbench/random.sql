@@ -1,5 +1,5 @@
 SELECT
-    COUNT(action_id)
+    transfer.transfer_id
 FROM 
     minka-ach-dw.ach_tin.transfer
 INNER JOIN
