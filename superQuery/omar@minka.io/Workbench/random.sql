@@ -47,7 +47,7 @@ LEFT JOIN
 LEFT JOIN 
     minka-ach-dw.ach_tin.signer_balance AS target ON target_signer=target.signer
 WHERE
-    transfer_id="GbwLMmuiLv2aNLgOG"
-    AND created BETWEEN "2020-04-08" AND "2020-07-09"
+    created BETWEEN "2020-04-08" AND "2020-07-09"
     AND status NOT IN ("REJECTED","COMPLETED")
-    AND (source_channel!='"MassTransferCLI"')
+    AND (source_channel!='"MassTransferCLI"' OR source_channel IS NULL)
+    AND transfer_id="GbwLMmuiLv2aNLgOG"
