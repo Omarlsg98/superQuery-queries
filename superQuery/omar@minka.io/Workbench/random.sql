@@ -1,13 +1,7 @@
-SELECT 
-    handle
-    ,labels.mobile
-    ,labels.created
-    ,labels.bankName
+SELECT
+    CounT(transfer_id)
 FROM 
-    minka-ach-dw.ach_tin.signer
-WHERE
-    labels.mobile IN (
-    "573176357560",
-"573205912747",
-"573118279224",
-"573133813136")
+    minka-ach-dw.ach_tin.transfer
+WHERE 
+    status NOT IN ("REJECTED","COMPLETED")
+    AND source_channel IS NULL
