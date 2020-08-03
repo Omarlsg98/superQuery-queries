@@ -1,5 +1,6 @@
 SELECT
-    CounT(transfer_id)
+    transfer_id
+    ,created
 FROM 
     minka-ach-dw.ach_tin.transfer
 WHERE 
