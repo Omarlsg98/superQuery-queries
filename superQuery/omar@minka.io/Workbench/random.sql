@@ -1,8 +1,5 @@
-SELECT
-    transfer_id
-    ,created
+SELECT *
 FROM 
     minka-ach-dw.ach_tin.transfer
-WHERE 
-    status NOT IN ("REJECTED","COMPLETED")
-    AND source_channel IS NULL
+WHERE
+    transfer_id="GbwLMmuiLv2aNLgOG"
