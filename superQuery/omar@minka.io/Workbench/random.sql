@@ -50,4 +50,4 @@ WHERE
     transfer_id="GbwLMmuiLv2aNLgOG"
     AND created BETWEEN "2020-04-08" AND "2020-07-09"
     AND status NOT IN ("REJECTED","COMPLETED")
-    AND (source_channel!='"MassTransferCLI"' OR source_channel IS NULL)
+    AND (source_channel!='"MassTransferCLI"')
