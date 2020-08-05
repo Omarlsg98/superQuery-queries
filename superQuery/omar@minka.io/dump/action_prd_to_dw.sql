@@ -29,5 +29,5 @@ SELECT
     , snapshot.target.wallet AS action_target_wallet
     , snapshot.target.signer.handle AS action_target_signer
 FROM 
-    minka-ach-dw.datastore_to_bigquery.action
+    minka-ach-dw.migration_to_bigquery_prd_dump.action
 )
