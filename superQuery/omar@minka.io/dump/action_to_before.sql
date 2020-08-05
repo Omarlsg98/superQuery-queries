@@ -1,4 +1,4 @@
-CREATE TABLE minka-ach-dw.ach_tin_before.action_20200804
+CREATE TABLE minka-ach-dw.ach_tin_before.action_20200805
 AS (
 SELECT
     action_id
@@ -29,5 +29,5 @@ SELECT
     , snapshot.target.wallet AS action_target_wallet
     , snapshot.target.signer.handle AS action_target_signer
 FROM 
-    minka-ach-dw.datastore_to_bigquery.action
+    minka-ach-dw.migration_to_bigquery_prd_dump.action
 )
