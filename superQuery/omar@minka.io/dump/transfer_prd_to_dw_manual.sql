@@ -24,4 +24,4 @@ SELECT
     ,errorMessage AS error_message
     ,txLabelsId AS tx_labels_id
 FROM
-    minka-ach-dw.cloudsql_to_bigquery.transfer)
+    minka-ach-dw.migration_to_bigquery_prd_dump.transfer)
