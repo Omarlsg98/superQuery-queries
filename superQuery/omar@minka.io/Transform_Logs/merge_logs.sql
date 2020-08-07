@@ -5,7 +5,7 @@ both_logs AS (
     SELECT 
        timestamp
        ,jsonPayload.message as textPayLoad
-    FROM 
+    FROM  
         ach-tin-prd.achtin_logs.winston_log
     UNION ALL
     SELECT 
