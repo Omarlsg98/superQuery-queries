@@ -1,4 +1,5 @@
-
+SELECT
+    movii.*
 FROM
     movii_bridge_log.movii_logs_all AS movii
 LEFT JOIN 
