@@ -1,5 +1,6 @@
 SELECT 
-    COUNT(transfer_id)
+    COUNT(movii.transfer_id)
+    ,COUNT (transfer.trasnfer_id)
 FROM
     movii_bridge_log.movii_logs_all AS movii
 INNER JOIN 
