@@ -1,8 +1,7 @@
 SELECT
-    * 
-FROM 
-    minka-ach-dw.ach_tin.transfer
+    *
+FROM
+    minka-ach-dw.ach_tin.transaction
 WHERE
-    (source_wallet="$573102204561" OR target_wallet="$573102204561")
-    AND (source_bank="DAVIPLATA" OR target_bank="DAVIPLATA")
-    AND created BETWEEN   "2020-03-29"  AND "2020-04-08"
+    iou.data.source="wVCmBRk2jz5fBi47kpzGZezoovzfudv6L2" OR iou.data.target="wVCmBRk2jz5fBi47kpzGZezoovzfudv6L2"
+LIMIT 100
