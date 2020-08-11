@@ -12,7 +12,7 @@ SELECT
             THEN "solution-undefined"
         WHEN created<"2020-07-09" AND updated>"2020-07-12" 
             THEN "failed-attempt"
-        ELSE "pending-master"
+        ELSE "master-pending"
    END AS master_status
 FROM 
   minka-ach-dw.temp.master_data
