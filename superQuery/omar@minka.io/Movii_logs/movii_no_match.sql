@@ -3,15 +3,17 @@ master_summary AS
 (
 SELECT 
     transfer_id
-   ,IF(fixed_by_minka="pending"
-        ,IF(fixed_source_banks="no-data" OR fixed_target_banks="no-data"
-            ,"no-data"
-            ,IF(minka_analysis="solution-undefined"
-                ,"solution-undefined"
-                ,"pending"
-            )
-        )
-        ,fixed_by_minka) AS master_status
+   ,CASE
+        WHEN fixed_by_minka!="pending" 
+            THEN fixed_by_minka
+        WHEN fixed_source_banks="no-data" OR fixed_target_banks="no-data"
+            THEN "no-data"
+        WHEN minka_analysis="solution-undefined"
+            THEN "solution-undefined"
+        WHEN created<"2020-07-09" AND updated>"2020-07-12" 
+            THEN "failed-attempt"
+        ELSE "pending-master"
+   END AS master_status
 FROM 
   minka-ach-dw.temp.master_data
 ),
