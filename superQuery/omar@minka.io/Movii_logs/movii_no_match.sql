@@ -14,10 +14,22 @@ SELECT
         ,fixed_by_minka) AS master_status
 FROM 
   minka-ach-dw.temp.master_data
+),
+daily_summary AS 
+(
+SELECT 
+    transfer_id
+   ,CONCAT(status,"-",to_do) AS daily_status
+FROM 
+  minka-ach-dw.ach_tin.manual_reverse
 )
 SELECT
     match.* EXCEPT(source_channel,updated)
-    ,IFNULL(master_status,"not_available") AS deeper_analysis
+    ,CASE
+        WHEN master_status IS NOT NULL THEN master_status
+        WHEN daily_status IS NOT NULL THEN daily_status
+        ELSE "not_available"
+     END AS deeper_analysis
     ,transfer_type
     ,upload_
     ,main_action_
@@ -39,6 +51,9 @@ LEFT JOIN
 LEFT JOIN 
    master_summary AS master 
         ON LOWER(master.transfer_id)=LOWER(match.transfer_id)
+LEFT JOIN 
+   daily_summary AS daily 
+        ON LOWER(daily.transfer_id)=LOWER(match.transfer_id)
 WHERE
     match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update_movii_logs")
     AND created>"2020-01-01"
