@@ -42,3 +42,5 @@ LEFT JOIN
 WHERE
     match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update_movii_logs")
     AND created>"2020-01-01"
+    AND (transfer.source_channel IS NULL 
+        OR transfer.source_channel !='"MassTransferCLI"')
