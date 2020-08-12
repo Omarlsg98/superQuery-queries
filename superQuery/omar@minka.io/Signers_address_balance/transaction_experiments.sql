@@ -14,7 +14,8 @@ SELECT
     ,transfer_id
     ,action_id
     ,action_created
-
+    ,action_source_signer
+    ,action_target_signer
     /*
     COUNT(*) AS total
     ,COUNT(action_id) AS actions
@@ -28,4 +29,6 @@ FULL JOIN
 WHERE
     (transaction_id IS NULL
         AND action_hash IS NOT NULL)
+ORDER BY 
+    action_created DESC
 LIMIT 1000
