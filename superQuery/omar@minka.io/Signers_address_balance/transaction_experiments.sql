@@ -28,7 +28,8 @@ FULL JOIN
         ON action_hash=iou.hash.value
 WHERE
     (transaction_id IS NULL
-        AND action_hash IS NOT NULL)
+        AND (action_hash IS NOT NULL 
+                OR action_hash!="PENDING")
 ORDER BY 
     action_created DESC
 LIMIT 1000
