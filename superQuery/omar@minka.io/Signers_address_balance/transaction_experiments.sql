@@ -8,9 +8,9 @@ SELECT
     ,created
     ,iou.hash.value
     ,action_hash*/
-    COUNT(*)
-    ,COUNT(action_id)
-    ,COUNT(transaction_id)
+    COUNT(*) AS total
+    ,COUNT(action_id) AS actions
+    ,COUNT(transaction_id) AS transactions
 FROM
     minka-ach-dw.ach_tin.transaction
 FULL JOIN
