@@ -3,6 +3,9 @@ SELECT
     ,iou.data.amount
     ,iou.data.source
     ,iou.data.target
+    ,iou.hash.value
+    ,__key__.name
+    ,__has_error__
     ,created
 FROM
     minka-ach-dw.ach_tin.transaction
