@@ -24,7 +24,6 @@ FULL JOIN
     minka-ach-dw.ach_tin.action
         ON action_hash=iou.hash.value
 WHERE
-    
-    OR (transaction_id IS NULL
+    (transaction_id IS NULL
         AND action_hash IS NOT NULL)
 LIMIT 1000
