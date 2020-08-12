@@ -1,10 +1,10 @@
 SELECT
     transaction_id
-    ,created
-    ,iou.data.target
-    ,iou.data.source
     ,iou.data.amount
+    ,iou.data.source
+    ,iou.data.target
+    ,created
 FROM
     minka-ach-dw.ach_tin.transaction
 WHERE 
-    transaction_id="496a857c1c81277647a048ea347cf749df6f98d50222de65909c4321319f28b1"
+    transaction_id="27e6a3bf6a0b0bb2a7f76f9f24ad90230deb29705d67fd8823b04c1be12df515"
