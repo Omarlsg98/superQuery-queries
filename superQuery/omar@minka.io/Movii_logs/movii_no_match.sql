@@ -26,7 +26,10 @@ FROM
   minka-ach-dw.ach_tin.manual_reverse
 )
 SELECT
-    match.* EXCEPT(source_channel,updated)
+    match.transfer_id
+    ,IF(movii_transfer_id IS NULL, "","X") AS in_mahindra
+    ,IF(action_transfer_id IS NULL, "","X") AS in_actions
+    ,match.* EXCEPT(transfer_id,movii_transfer_id,action_transfer_id,source_channel,updated)
     ,CASE
         WHEN master_status IS NOT NULL THEN master_status
         WHEN daily_status IS NOT NULL THEN daily_status
