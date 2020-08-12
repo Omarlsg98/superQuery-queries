@@ -7,4 +7,4 @@ SELECT
 FROM
     minka-ach-dw.ach_tin.transaction
 WHERE 
-    transaction_id="27e6a3bf6a0b0bb2a7f76f9f24ad90230deb29705d67fd8823b04c1be12df515"
+    transaction_id="5094dd2e4e23a7e118dbfe23b402f861df696b941c5a01ce6942fa0b7d26cc28"
