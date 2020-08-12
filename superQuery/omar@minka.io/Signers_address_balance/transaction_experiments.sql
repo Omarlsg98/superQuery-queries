@@ -1,5 +1,5 @@
 SELECT
-
+/*
     transaction_id
     ,iou.data.amount
     ,iou.data.source
@@ -16,11 +16,10 @@ SELECT
     ,action_created
     ,action_source_signer
     ,action_target_signer
-    /*
+*/
     COUNT(*) AS total
     ,COUNT(action_id) AS actions
     ,COUNT(transaction_id) AS transactions
-    */
 FROM
     minka-ach-dw.ach_tin.transaction
 FULL JOIN
@@ -31,6 +30,9 @@ WHERE
         AND action_hash IS NOT NULL 
         AND action_hash!="PENDING"
     )
-ORDER BY 
-    action_created DESC
+    OR
+    (action_id IS NULL 
+        AND transaction.created<"2020-08-12"
+        AND transaction.created IS NOT NULL
+    )
 LIMIT 1000
