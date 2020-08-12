@@ -1,4 +1,5 @@
 /*ACTION SUMMARY*/
+CREATE OR REPLACE TABLE minka-ach-dw.temp.action_summary AS (
 WITH
 grouped_by_error AS
 (
@@ -64,4 +65,4 @@ FROM
     grouped_by_status
 GROUP BY
   transfer_id, type
-LIMIT 100
+)
