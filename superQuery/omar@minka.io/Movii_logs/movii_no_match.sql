@@ -8,7 +8,7 @@ SELECT
             THEN fixed_by_minka
         WHEN fixed_source_banks="no-data" OR fixed_target_banks="no-data"
             THEN "no-data"
-        WHEN minka_analysis="solution-undefined"
+        WHEN minka_analysis="solution-undefined" OR minka_analysis="search-money"
             THEN "solution-undefined"
         WHEN created<"2020-07-09" AND updated>"2020-07-12" 
             THEN "failed-attempt"
