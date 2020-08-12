@@ -1,5 +1,5 @@
 SELECT
-/*
+
     transaction_id
     ,iou.data.amount
     ,iou.data.source
@@ -14,12 +14,20 @@ SELECT
     ,transfer_id
     ,action_id
     ,action_created
+    ,action_udpated
     ,action_source_signer
     ,action_target_signer
-*/
+    ,error_code
+    ,error_message
+    ,action_source_bankrouter
+    ,action_target_bankrouter
+    ,action_source_wallet.handle AS source_wallet
+    ,action_target_wallet.handle AS target_wallet
+/*
     COUNT(*) AS total
     ,COUNT(action_id) AS actions
     ,COUNT(transaction_id) AS transactions
+*/
 FROM
     minka-ach-dw.ach_tin.transaction
 FULL JOIN
@@ -35,4 +43,3 @@ WHERE
         AND transaction.created<"2020-08-12"
         AND transaction.created IS NOT NULL
     )
-LIMIT 1000
