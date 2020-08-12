@@ -1,13 +1,10 @@
 SELECT
-    transaction_id
-    ,iou.data.amount
-    ,iou.data.source
-    ,iou.data.target
-    ,iou.hash.value
-    ,__key__.name
-    ,__has_error__
-    ,created
+    COUNT(*)
 FROM
     minka-ach-dw.ach_tin.transaction
-WHERE 
-    transaction_id="5094dd2e4e23a7e118dbfe23b402f861df696b941c5a01ce6942fa0b7d26cc28"
+FULL JOIN
+    minka-ach-dw.temp.action_new_downloads
+        ON action_hash=iou.hash.value
+WHERE
+    action_id IS NULL
+    OR transaction_id IS NULL
