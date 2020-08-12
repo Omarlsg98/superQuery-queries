@@ -1,5 +1,5 @@
 SELECT
-    /*
+
     transaction_id
     ,iou.data.amount
     ,iou.data.source
@@ -14,9 +14,7 @@ SELECT
     ,transfer_id
     ,action_id
     ,action_created
-    */
-    MIN(action_created) as minc
-    ,MAX(action_created) AS maxc
+
     /*
     COUNT(*) AS total
     ,COUNT(action_id) AS actions
