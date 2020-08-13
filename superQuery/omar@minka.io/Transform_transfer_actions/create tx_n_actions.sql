@@ -24,16 +24,16 @@ SELECT
       t.transfer_id = asum.transfer_id
       AND asum.type = "UPLOAD"
   ) AS upload,
-  (
+   IFNULL((
     SELECT
-      IFNULL(STRUCT(created, updated, count, with_hash, status)
-            ,STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+     STRUCT(created, updated, count, with_hash, status)
     FROM
       minka-ach-dw.temp.action_summary asum
     WHERE
       t.transfer_id = asum.transfer_id
       AND asum.type = "DOWNLOAD_TARGET"
-  ) AS download_target,
+  ) ,STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS download_target,
   (
     SELECT
       STRUCT(created, updated, count,with_hash, status)
