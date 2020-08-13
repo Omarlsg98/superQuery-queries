@@ -1,6 +1,6 @@
 SELECT 
-   COUNT(action_id) AS conteo
-   ,MAX(action_created) AS fecha_maxima_registra
-   ,MIN(action_created) AS fecha_minima
+   action_id
 FROM
     minka-ach-dw.ach_tin.action
+LIMIT
+    1000
