@@ -26,7 +26,8 @@ SELECT
   ) AS upload,
   (
     SELECT
-      STRUCT(created, updated, IFNULL(count,0) AS count, IFNULL(with_hash,0) AS with_hash, status)
+      IFNULL(STRUCT(created, updated, count, with_hash, status)
+            ,STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
     FROM
       minka-ach-dw.temp.action_summary asum
     WHERE
