@@ -5,6 +5,7 @@ FROM
 WHERE
     (
         downs_target_signed=0
+        AND downs_ambiguous_signed=0
     )
     AND transfer_status="COMPLETED"
     AND source_channel!='"MassTransferCLI"'
