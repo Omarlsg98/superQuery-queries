@@ -9,3 +9,5 @@ FROM
 GROUP BY
     action_type
     ,action_status
+HAVING
+    conteo>10000
