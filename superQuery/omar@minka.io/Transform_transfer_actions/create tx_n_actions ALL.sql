@@ -1,86 +1,182 @@
 CREATE OR REPLACE TABLE minka-ach-dw.temp.tx_n_actions as(
 /*ACTION NEW DOWNLOADS*/
 WITH action_new_downloads as (
-  select
-    *
-  EXCEPT
-    (action_type),
-    action_type as type
-  from
-   minka-ach-dw.ach_tin.action
-  where
-    action_type not in ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
+  SELECT
+    * EXCEPT (action_type),
+    action_type AS type,
+    action_type AS original_type
+  FROM
+    minka-ach-dw.ach_tin.action
+  WHERE
+    action_type NOT IN ("ISSUE", "TOPUP", "WITHDRAW", "DOWNLOAD")
   UNION ALL
-  select
-    *
-  EXCEPT
-    (action_type, txId, tx_sourceSigner, tx_targetSigner),
-    IF(
-      tx_sourceSigner = tx_targetSigner,
-      "DOWNLOAD_AMBIGUOUS",
-      IF(
-        act.action_source = tx_targetSigner,
-        "DOWNLOAD_TARGET",
-        IF(
-          act.action_source = tx_sourceSigner,
-          "DOWNLOAD_SOURCE",
-          "DOWNLOAD_AMBIGUOUS"
-        )
-      )
-    ) as type
-  from
-     minka-ach-dw.ach_tin.action act
-    Inner join (
-      select
-        transfer_id as txId,
-        source_signer as tx_sourceSigner,
-        target_signer as tx_targetSigner
-      from
+  SELECT
+    *  EXCEPT (
+          action_type,
+          txId,
+          tx_sourceSigner,
+          tx_targetSigner
+    ),
+    CASE
+        WHEN tx_sourceSigner = tx_targetSigner
+            THEN"DOWNLOAD_AMBIGUOUS"
+        WHEN act.action_source = tx_targetSigner
+            THEN "DOWNLOAD_TARGET"
+        WHEN act.action_source = tx_sourceSigner
+            THEN "DOWNLOAD_SOURCE"
+        ELSE
+            "DOWNLOAD_AMBIGUOUS"
+    END AS type
+    ,act.action_type AS original_type
+  FROM
+    minka-ach-dw.ach_tin.action act
+    INNER JOIN (
+      SELECT
+        transfer_id AS txId,
+        source_signer AS tx_sourceSigner,
+        target_signer AS tx_targetSigner
+      FROM
         minka-ach-dw.ach_tin.transfer
-    ) as tx ON tx.txId = act.transfer_id
-  where
-    act.action_type in ("DOWNLOAD")
+    ) AS tx ON tx.txId = act.transfer_id
+  WHERE
+    act.action_type IN ("DOWNLOAD")
+)
+#Pre-step-1 for action_summary
+,grouped_by_error AS
+(
+    SELECT
+      transfer_id,
+      type,
+      action_status AS status,
+      error_code AS code,
+      error_message AS message,
+      COUNT(*) AS count,
+      SUM(IF(action_hash <> 'PENDING', 1, 0)) AS with_hash,
+      SUM(IF(action_hash = 'PENDING', 1, 0)) AS without_hash,
+      MIN(action_created) AS created,
+      MAX(action_udpated) AS updated
+    FROM
+      action_new_downloads
+    GROUP BY
+      transfer_id,type,action_status, error_code, error_message
+)
+#Pre-step-2 for action_summary
+,grouped_by_status AS
+(
+    SELECT
+      transfer_id,
+      type,
+      SUM(count) AS count,
+      SUM(with_hash) AS with_hash,
+      STRUCT(
+        status,
+        STRUCT(
+          SUM(count) AS total,
+          SUM(with_hash) AS with_hash,
+          SUM(without_hash) AS without_hash
+        ) AS count,
+        MAX(updated) AS updated,
+        ARRAY_AGG(
+          STRUCT(
+            code,
+            message,
+            STRUCT(
+                count AS total,
+                with_hash,
+                without_hash
+            ) AS count
+          )
+        ) AS error
+      ) AS whole_status,
+      MIN(created) AS created,
+      MAX(updated) AS updated
+    FROM
+        grouped_by_error
+    GROUP BY
+      transfer_id,type,status
 )
 #Action summary
 ,action_summary as (
-    select transfer_id, min(created) as created, max(updated) as updated , type, sum(count) as count ,ARRAY_AGG(whole_status) as status
-    from(
-     select transfer_id, type,sum(count) as count,
-     STRUCT(
-          status,
-          STRUCT(sum(count) as total,sum(with_hash) as with_hash,sum(without_hash)as without_hash) as count,
-          max(updated)as updated,
-          ARRAY_AGG(STRUCT(code,message,STRUCT(count as total,with_hash,without_hash) as count))as error
-        )as whole_status,
-     min(created) as created, max(updated) as updated
-     FROM(
-        select transfer_id, type,action_status as status, error_code as code,error_message as message, count(*) as count,
-        sum(IF(action_hash<> 'PENDING',1,0)) as with_hash, sum(IF(action_hash='PENDING',1,0)) as without_hash,
-        min(action_created) as created, max(action_udpated) as updated
-        From action_new_downloads
-        group by transfer_id,type,action_status,error_code,error_message)as T1
-      group by transfer_id,type,status) as T2
-    group by transfer_id, type
+    SELECT
+      transfer_id,
+      MIN(created) AS created,
+      MAX(updated) AS updated,
+      type,
+      SUM(count) AS count,
+      SUM(with_hash) AS with_hash,
+      ARRAY_AGG(whole_status) AS status
+    FROM
+        grouped_by_status
+    GROUP BY
+      transfer_id, type
 )
 /*TX N ACTIONS*/
-select * EXCEPT(error_code,error_message), STRUCT(error_code as code,error_message as message) as error,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and (asum.type="SEND" or asum.type="REQUEST")) as main_action,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and asum.type="UPLOAD") as upload,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and asum.type="DOWNLOAD_TARGET") as download_target,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and asum.type="REJECT") as reject,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and asum.type="DOWNLOAD_SOURCE") as download_source,
-  (select STRUCT(created, updated, count, status) 
-  from action_summary asum
-  where t.transfer_id=asum.transfer_id and asum.type="DOWNLOAD_AMBIGUOUS") as download_ambiguous
-from minka-ach-dw.ach_tin.transfer t
+ SELECT
+      * EXCEPT(error_code, error_message),
+      STRUCT(error_code AS code, error_message AS message) AS error,
+      IFNULL((
+        SELECT
+          STRUCT(created, updated, count,with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND (
+            asum.type = "SEND"
+            or asum.type = "REQUEST"
+          )
+      ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS main_action,
+      IFNULL((
+        SELECT
+          STRUCT(created, updated, count,with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND asum.type = "UPLOAD"
+      ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS upload,
+       IFNULL((
+        SELECT
+         STRUCT(created, updated, count, with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND asum.type = "DOWNLOAD_TARGET"
+      ) ,STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS download_target,
+      IFNULL((
+        SELECT
+          STRUCT(created, updated, count,with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND asum.type = "REJECT"
+      ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS reject,
+      IFNULL((
+        SELECT
+          STRUCT(created, updated, count,with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND asum.type = "DOWNLOAD_SOURCE"
+      ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS download_source,
+      IFNULL((
+        SELECT
+          STRUCT(created, updated, count,with_hash, status)
+        FROM
+          action_summary asum
+        WHERE
+          t.transfer_id = asum.transfer_id
+          AND asum.type = "DOWNLOAD_AMBIGUOUS"
+      ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+      AS download_ambiguous 
+    FROM
+      minka-ach-dw.ach_tin.transfer t
 )
