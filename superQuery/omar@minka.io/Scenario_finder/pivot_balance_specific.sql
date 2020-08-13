@@ -42,8 +42,9 @@ SELECT
     ,source_channel
     ,error
 FROM
-    minka-ach-dw.temp.tx_n_actions 
+    minka-ach-dw.tests.tx_n_actions 
 LEFT JOIN 
     minka-ach-dw.ach_tin.signer_balance AS source ON source_signer=source.signer
 LEFT JOIN 
     minka-ach-dw.ach_tin.signer_balance AS target ON target_signer=target.signer
+LIMIT 100
