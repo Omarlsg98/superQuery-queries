@@ -4,7 +4,6 @@ SELECT
    ,COUNT(action_id) AS conteo
    ,MAX(action_created) AS fecha_maxima_registra
    ,MIN(action_created) AS fecha_minima
-   ,CONCAT(a,b) AS llave
 FROM
     minka-ach-dw.ach_tin.action
 GROUP BY
