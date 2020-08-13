@@ -68,5 +68,4 @@ CREATE OR REPLACE TABLE minka-ach-dw.tests.tx_n_actions AS (
       AS download_ambiguous 
     FROM
       minka-ach-dw.ach_tin.transfer t
-    LIMIT 100
 )
