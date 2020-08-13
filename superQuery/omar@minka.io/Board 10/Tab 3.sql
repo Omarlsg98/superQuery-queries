@@ -1,7 +1,9 @@
 SELECT 
    action_type
    ,action_status
-   ,COUNT(action_id)
+   ,COUNT(action_id) AS conteo
+   ,MAX(created) AS fecha_maxima_registra
+   ,MIN(created) AS fecha_minima
 FROM
     minka-ach-dw.ach_tin.action
 GROUP BY
