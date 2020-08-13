@@ -19,3 +19,4 @@ WHERE
         )
     )
     AND source_channel!='"MassTransferCLI"'
+    AND created>"2020-04-08"
