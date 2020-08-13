@@ -3,7 +3,7 @@
 SELECT
   * EXCEPT(error_code, error_message),
   STRUCT(error_code AS code, error_message AS message) AS error,
-  (
+  IFNULL((
     SELECT
       STRUCT(created, updated, count,with_hash, status)
     FROM
@@ -14,8 +14,9 @@ SELECT
         asum.type = "SEND"
         or asum.type = "REQUEST"
       )
-  ) AS main_action,
-  (
+  ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS main_action,
+  IFNULL((
     SELECT
       STRUCT(created, updated, count,with_hash, status)
     FROM
@@ -23,7 +24,8 @@ SELECT
     WHERE
       t.transfer_id = asum.transfer_id
       AND asum.type = "UPLOAD"
-  ) AS upload,
+  ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS upload,
    IFNULL((
     SELECT
      STRUCT(created, updated, count, with_hash, status)
@@ -34,7 +36,7 @@ SELECT
       AND asum.type = "DOWNLOAD_TARGET"
   ) ,STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
   AS download_target,
-  (
+  IFNULL((
     SELECT
       STRUCT(created, updated, count,with_hash, status)
     FROM
@@ -42,8 +44,9 @@ SELECT
     WHERE
       t.transfer_id = asum.transfer_id
       AND asum.type = "REJECT"
-  ) AS reject,
-  (
+  ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS reject,
+  IFNULL((
     SELECT
       STRUCT(created, updated, count,with_hash, status)
     FROM
@@ -51,8 +54,9 @@ SELECT
     WHERE
       t.transfer_id = asum.transfer_id
       AND asum.type = "DOWNLOAD_SOURCE"
-  ) AS download_source,
-  (
+  ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS download_source,
+  IFNULL((
     SELECT
       STRUCT(created, updated, count,with_hash, status)
     FROM
@@ -60,7 +64,8 @@ SELECT
     WHERE
       t.transfer_id = asum.transfer_id
       AND asum.type = "DOWNLOAD_AMBIGUOUS"
-  ) AS download_ambiguous 
+  ),STRUCT(NULL AS created, NULL AS updated, 0 AS count, 0 AS with_hash, NULL AS status))
+  AS download_ambiguous 
 FROM
   minka-ach-dw.ach_tin.transfer t
 LIMIT 100
