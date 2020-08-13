@@ -11,3 +11,4 @@ GROUP BY
     ,action_status
 ORDER BY 
     action_type DESC
+    ,conteo DESC
