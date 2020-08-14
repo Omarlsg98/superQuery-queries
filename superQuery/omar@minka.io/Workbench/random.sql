@@ -1,8 +1,7 @@
-#Lost IOUs 
 SELECT
     *
 FROM
-    minka-ach-dw.ach_tin.transaction
+    minka-ach-dw.ach_tin.action
 WHERE
-    iou.data.source="wfKKKwyEnVT83AcRMcnjTEdhx68LwWLddS" OR iou.data.target="wfKKKwyEnVT83AcRMcnjTEdhx68LwWLddS"
+    action_type IN ("WITHDRAW","TOPUP")
 LIMIT 100
