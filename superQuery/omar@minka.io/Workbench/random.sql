@@ -2,6 +2,6 @@ SELECT
    action_type
 FROM
     minka-ach-dw.ach_tin.action
-GROUP BY
+WHERE
     action_type IN ("WITHDRAW")
 LIMIT 100
