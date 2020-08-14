@@ -190,7 +190,7 @@ SELECT
                 )
             ,"")
         )
-    ) AS Analisis
+    ) AS analysis
 FROM
     match_table
 )
