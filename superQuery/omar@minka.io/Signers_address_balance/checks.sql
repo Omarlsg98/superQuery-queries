@@ -1,8 +1,14 @@
 SELECT
-   iou.data.symbol
-FROM 
-    `minka-ach-dw.ach_tin.transaction`
- WHERE
-    iou.data.symbol="wd7VoAD3PzRdRRuKUbSUzL2gFgSD4Z8HRC"
-GROUP BY
-    iou.data.symbol
+    SUM(balance) AS total
+FROM
+    `minka-ach-dw.tests.transaction_balance`;
+
+#check 2: signers with negative balance
+#It must only be one 
+SELECT
+    signer
+    ,balance
+FROM
+    `minka-ach-dw.tests.transaction_balance`  
+WHERE
+    balance<0;
