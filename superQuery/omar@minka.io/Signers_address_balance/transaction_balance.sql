@@ -1,4 +1,8 @@
+#Healthcheck 2: signers with negative balance
 SELECT
-    SUM(balance) AS total
+    signer
+    ,balance
 FROM
-    `minka-ach-dw.tests.transaction_balance`
+    `minka-ach-dw.tests.transaction_balance`  
+WHERE
+    balance<0
