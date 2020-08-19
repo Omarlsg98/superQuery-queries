@@ -6,7 +6,6 @@ FROM
     `minka-ach-dw.ach_tin.transaction`
 GROUP BY
     iou.data.symbol
-;
 */
 
 #check 1: total balance 
