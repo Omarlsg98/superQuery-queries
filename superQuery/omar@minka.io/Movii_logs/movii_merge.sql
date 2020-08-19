@@ -1,9 +1,5 @@
+CREATE OR REPLACE TABLE minka-ach-dw.ach_tin_before.movii_logs_all_backup AS (
 SELECT
-    transfer_id
-    ,COUNT(transfer_id) AS conteo
-FROM
-    movii_bridge_log.movii_logs_all
-GROUP BY
-    transfer_id
-HAVING 
-    conteo>1
+    *
+FROM 
+    movii_bridge_log.movii_logs_all)
