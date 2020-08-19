@@ -1,5 +1,6 @@
-    SELECT
+SELECT
         manual.* 
+        ,normal.transfer_id AS n_transfer_id
         ,normal.cell_id AS n_cell_id
         ,normal.msisdn AS n_misisdn
         ,normal.value AS n_value
