@@ -1,5 +1,6 @@
-#Get the last movements by signer and position (source/target)
+#Calculate signer's balance from Transaction table
 #wRxZte3mwBmUbyKBFKMUQc91xZYzXXE4f9
+CREATE OR REPLACE TABLE `minka-ach-dw.tests.transaction_balance` AS (
 WITH summary AS (
   SELECT
     iou.data.source AS signer
@@ -20,9 +21,10 @@ WITH summary AS (
     iou.data.target
 )
 SELECT
-    COUNT(signer)
+    signer
     ,SUM(amount) AS balance
 FROM
     summary
 GROUP BY 
     signer
+)
