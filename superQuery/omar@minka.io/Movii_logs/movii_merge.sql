@@ -1,4 +1,4 @@
 SELECT
-    MAX(transfer_on) as MAX, "logs_all"
+    MAX(created) as MAX , "transform"
 FROM 
-    minka-ach-dw.movii_bridge_log.movii_logs_all
+    minka-ach-dw.movii_bridge_log.movii_logs_transform
