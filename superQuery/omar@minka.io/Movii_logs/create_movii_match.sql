@@ -4,7 +4,9 @@ CREATE OR REPLACE TABLE  minka-ach-dw.temp.movii_match AS
 #Concat the place of the movement and the type of the movement
 movii_types AS  
 (    SELECT 
-        CONCAT(tx_place,"_",service_type) AS type
+        CONCAT(tx_place,"_"
+            ,IF(service_type IN ("MERCHPAY","CASHOUT","OPTW"),"MERCHPAY",service_type)
+            ) AS type
         ,movii.transfer_id
         ,movii.amount
     FROM
