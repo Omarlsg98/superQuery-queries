@@ -2,7 +2,6 @@
 SELECT
     COUNT(DISTINCT iou.data.symbol) AS symbols
     ,COUNT(DISTINCT  __has_error__)  AS has_errors
-    ,COUNT(DISTINCT  __error__)    AS errors
 FROM 
     `minka-ach-dw.ach_tin.transaction`;
 
