@@ -121,7 +121,7 @@ FROM
 #have a failsafe for outdated movii_logs
 SELECT
     *
-    ,IF(updated>"2020-08-13","Update_movii_logs"
+    ,IF(updated>"2020-08-18","Update_movii_logs"
         ,CONCAT(
             IF (transfer_status IN ("COMPLETED")
                 ,CONCAT(
