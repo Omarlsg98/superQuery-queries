@@ -1,7 +1,6 @@
-#Get the last movements by signer and position (source/target)
 SELECT
-   SUM(CAST(iou.data.amount AS FLOAT64)) 
+   source_signer
 FROM
-    `minka-ach-dw.ach_tin.transaction` AS a
+    `minka-ach-dw.ach_tin.transfer`
 WHERE
-    a.iou.data.source="wd7VoAD3PzRdRRuKUbSUzL2gFgSD4Z8HRC"
+    source_wallet="$573168059182"
