@@ -21,6 +21,8 @@ WITH summary AS (
 )
 SELECT
     COUNT(signer)
-    
+    ,SUM(amount) AS balance
 FROM
     summary
+GROUP BY 
+    signer
