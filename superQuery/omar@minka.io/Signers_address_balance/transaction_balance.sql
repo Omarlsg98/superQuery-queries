@@ -1,6 +1,7 @@
 SELECT
-   source_signer
+   *
 FROM
-    `minka-ach-dw.ach_tin.transfer`
+    `minka-ach-dw.ach_tin.transaction` AS a
 WHERE
-    source_wallet="$573168059182"
+    a.iou.data.source="wd7VoAD3PzRdRRuKUbSUzL2gFgSD4Z8HRC"
+    AND iou.data.amount="20"
