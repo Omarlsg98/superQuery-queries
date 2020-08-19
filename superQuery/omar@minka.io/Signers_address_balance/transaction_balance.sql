@@ -1,7 +1,4 @@
 SELECT
-    signer
-    ,balance
+    SUM(balance) AS total
 FROM
-    `minka-ach-dw.tests.transaction_balance`  
-WHERE
-    balance<0
+    `minka-ach-dw.tests.transaction_balance`
