@@ -1,6 +1,6 @@
 #Get the last movements by signer and position (source/target)
 SELECT
-    iou.data.source
+    a.iou.data.source
     ,MAX(created)
 FROM
     `minka-ach-dw.ach_tin.transaction` AS a
