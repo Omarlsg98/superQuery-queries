@@ -3,4 +3,4 @@ SELECT
 FROM
     minka-ach-dw.tests.transaction_balance
 WHERE
-    balance=0
+    balance>0
