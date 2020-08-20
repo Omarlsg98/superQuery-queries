@@ -35,6 +35,7 @@ SELECT
         WHEN daily_status IS NOT NULL THEN daily_status
         ELSE "not_available"
      END AS deeper_analysis
+    ,fix_action
     ,transfer_type
     ,upload_
     ,main_action_
@@ -51,7 +52,7 @@ SELECT
 FROM
     minka-ach-dw.temp.movii_match AS match
 LEFT JOIN
-    minka-ach-dw.ach_tin.transfiya_pivot_specific AS transfer
+    minka-ach-dw.ach_tin.pivot_specific AS transfer
         ON transfer.transfer_id=match.transfer_id
 LEFT JOIN 
    master_summary AS master 
@@ -60,7 +61,7 @@ LEFT JOIN
    daily_summary AS daily 
         ON LOWER(daily.transfer_id)=LOWER(match.transfer_id)
 WHERE
-    match.analisis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update_movii_logs")
+    match.analysis NOT IN ("  target_OK"," source_OK target_OK"," source_OK"," target_OK","Update_movii_logs")
     AND created>"2020-01-01"
     AND (transfer.source_channel IS NULL 
         OR transfer.source_channel !='"MassTransferCLI"')
